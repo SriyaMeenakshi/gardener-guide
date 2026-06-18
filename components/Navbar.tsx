@@ -5,11 +5,11 @@ export default function Navbar(){
                   🪴Gardener Guide📗
             </h1>
             <div className="space-x-6">
-                <a>Home</a>
-                <a>Indoor Plants</a>
-                <a>Plant Care Tips</a>
-                <a>DIY Garden Crafts</a>
-                <a>Gardening Methods</a>
+                <a href="/">Home</a>
+                <a href="/plants">Plants for Your Home Garden</a>
+                <a href="/care-tips">Plant Care Tips</a>
+                <a href="/diy-crafts">DIY Garden Crafts</a>
+                <a href="/gardening-methods">Gardening Methods</a>
             </div>
         </nav>
     );
