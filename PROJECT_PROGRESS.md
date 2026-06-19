@@ -21,4 +21,8 @@ Images added.
 Cards designed.
 
 Navigation working.
+✅ Phase 3 
+Added 6 plant care cards
+Navigation working
+
 
