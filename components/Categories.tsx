@@ -10,9 +10,12 @@ export default function Categories() {
     <p>Discover flowers, herbs, medicinal, and kitchen garden plants.</p>
   </div>
 </Link>
-
-      <div>💧 Plant Care Tips 👩‍🌾</div>
-
+    <Link href="/plantcare">
+      <div className="p-6 rounded-xl bg-green-900 hover:bg-green-800 cursor-pointer">
+        <h2>💧 Plant Care Tips 👩‍🌾</h2>
+        <p>Learn how to properly water, fertilize, and maintain your plants.</p>
+      </div>
+    </Link>
       <div>🎍 DIY Garden Crafts 🎋</div>
       <div>🌱 Gardening Methods 🌳</div>
 
