@@ -1,4 +1,5 @@
 import { plantCategories } from "@/data/plants";
+import Navbar from "@/components/Navbar";
 
 import PlantCategory from "@/components/PlantCategory";
 
@@ -7,6 +8,8 @@ export default function Plants(){
 return(
 
 <main className="p-8">
+
+<Navbar />
 
 <h1 className="text-5xl font-bold text-center">
 

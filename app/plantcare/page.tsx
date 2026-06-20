@@ -1,8 +1,10 @@
 import CareCard from "@/components/CareCard";
+import Navbar from "@/components/Navbar";
 import {careTips} from "@/data/care";
 export default function PlantCare() {
   return (
     <main className="p-8">
+        <Navbar />
         <h1 className="text-5xl font-bold text-center">
             💧Plant Care Tips🧑‍🌾
         </h1>

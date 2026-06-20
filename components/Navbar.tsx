@@ -8,7 +8,7 @@ export default function Navbar(){
                 <a href="/">Home</a>
                 <a href="/plants">Plants for Your Home Garden</a>
                 <a href="/plantcare">Plant Care Tips</a>
-                <a href="/diy-crafts">DIY Garden Crafts</a>
+                <a href="/diy">DIY Garden Ideas</a>
                 <a href="/gardening-methods">Gardening Methods</a>
             </div>
         </nav>

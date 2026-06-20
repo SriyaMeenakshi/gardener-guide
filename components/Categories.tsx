@@ -16,7 +16,12 @@ export default function Categories() {
         <p>Learn how to properly water, fertilize, and maintain your plants.</p>
       </div>
     </Link>
-      <div>🎍 DIY Garden Crafts 🎋</div>
+      <Link href="/diy">
+        <div className="p-6 rounded-xl bg-green-900 hover:bg-green-800 cursor-pointer">
+          <h2>🎍 DIY Garden Ideas 🎋</h2>
+          <p>Build your own garden structures and decorations.</p>
+        </div>
+      </Link>
       <div>🌱 Gardening Methods 🌳</div>
 
       
