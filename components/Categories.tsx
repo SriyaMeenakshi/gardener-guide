@@ -22,9 +22,12 @@ export default function Categories() {
           <p>Build your own garden structures and decorations.</p>
         </div>
       </Link>
-      <div>🌱 Gardening Methods 🌳</div>
-
-      
+      <Link href="/methods">
+        <div className="p-6 rounded-xl bg-green-900 hover:bg-green-800 cursor-pointer">
+          <h2>🌱 Gardening Methods 🌳</h2>
+          <p>Explore different gardening techniques and methods.</p>
+        </div>
+      </Link>
 
     </div>
   );
