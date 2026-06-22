@@ -1,8 +1,9 @@
+import Link from "next/link";
 import Image from "next/image";
 
-export default function PlantCard({ plant }){
+export default function PlantCard({ plant }) {
 
-return(
+return (
 
 <div className="
 bg-white
@@ -16,15 +17,11 @@ duration-300
 ">
 
 <Image
-
 src={plant.image}
-
 alt={plant.name}
-
 width={300}
 height={200}
 className="w-full h-48 object-cover rounded-lg"
-
 />
 
 <h2 className="text-xl font-bold mt-3 text-green-800">
@@ -33,8 +30,10 @@ className="w-full h-48 object-cover rounded-lg"
 
 </h2>
 
+<Link href={`/plants/${plant.slug}`}>
+
 <button className="
-mt-auto
+mt-3
 bg-green-600
 hover:bg-green-700
 text-white
@@ -44,8 +43,12 @@ py-2
 rounded-lg
 transition
 ">
+
 Learn More →
+
 </button>
+
+</Link>
 
 </div>
 

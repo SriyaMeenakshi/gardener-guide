@@ -1,3 +1,5 @@
+import Link from "next/link";
+import Image from "next/image";
 export const plantCategories = [
 
 {
@@ -7,7 +9,8 @@ plants:[
 
 {
 name:"Rose",
-image:"/plants/rose.jpg"
+image:"/plants/rose.jpg",
+slug:"rose"
 },
 
 {
