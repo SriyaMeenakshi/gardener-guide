@@ -34,7 +34,8 @@ plants:[
 
 {
 name:"Tulasi",
-image:"/plants/tulasi.jpg"
+image:"/plants/tulasi.jpg",
+slug:"tulasi"
 },
 
 {
