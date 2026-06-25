@@ -59,7 +59,8 @@ plants:[
 
 {
 name:"Tomato",
-image:"/plants/tomato.jpg"
+image:"/plants/tomato.jpg",
+slug:"tomato"
 },
 
 {
