@@ -84,7 +84,8 @@ plants:[
 
 {
 name:"Lemon",
-image:"/plants/lemon.jpg"
+image:"/plants/lemon.jpg",
+slug:"lemon"
 },
 
 {
