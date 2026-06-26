@@ -15,7 +15,8 @@ slug:"rose"
 
 {
 name:"Hibiscus",
-image:"/plants/hibiscus.jpg"
+image:"/plants/hibiscus.jpg",
+slug:"hibiscus"
 },
 
 {
