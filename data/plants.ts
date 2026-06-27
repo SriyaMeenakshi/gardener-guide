@@ -21,7 +21,8 @@ slug:"hibiscus"
 
 {
 name:"Marigold",
-image:"/plants/marigold.jpg"
+image:"/plants/marigold.jpg",
+slug:"marigold"
 }
 
 ]
