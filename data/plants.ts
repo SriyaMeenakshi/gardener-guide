@@ -42,7 +42,8 @@ slug:"tulasi"
 
 {
 name:"Mint",
-image:"/plants/mint.jpg"
+image:"/plants/mint.jpg",
+slug:"mint"
 },
 
 {
