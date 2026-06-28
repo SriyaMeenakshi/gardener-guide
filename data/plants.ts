@@ -47,7 +47,8 @@ image:"/plants/mint.jpg"
 
 {
 name:"Aloe Vera",
-image:"/plants/aloevera.jpg"
+image:"/plants/aloevera.jpg",
+slug:"aloevera"
 }
 
 ]
