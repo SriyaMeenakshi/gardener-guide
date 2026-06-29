@@ -75,7 +75,8 @@ slug:"chilli"
 
 {
 name:"Coriander",
-image:"/plants/coriander.jpg"
+image:"/plants/coriander.jpg",
+slug:"coriander"
 }
 
 ]
