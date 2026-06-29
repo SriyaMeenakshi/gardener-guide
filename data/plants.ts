@@ -69,7 +69,8 @@ slug:"tomato"
 
 {
 name:"Chilli",
-image:"/plants/chilli.jpg"
+image:"/plants/chilli.jpg",
+slug:"chilli"
 },
 
 {
