@@ -96,16 +96,16 @@ slug:"lemon"
 
 {
 name:"Guava",
-image:"/plants/guava.jpg"
+image:"/plants/guava.jpg",
+slug:"guava"
 },
 
 {
 name:"Papaya",
-image:"/plants/papaya.jpg"
+image:"/plants/papaya.jpg",
+slug:"papaya"
+}
+]
 }
 
 ]
-
-}
-
-];
