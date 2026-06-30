@@ -186,13 +186,13 @@ export default function WateringGuidePage() {
           🌿 Keep Learning
         </h2>
         <div className="flex flex-col md:flex-row justify-center gap-4">
-          <a href="/guides/sunlight" className="bg-amber-100 hover:bg-amber-200 text-amber-900 font-semibold py-3 px-6 rounded-lg text-center transition-colors">
+          <a href="/plantcare/sunlight" className="bg-amber-100 hover:bg-amber-200 text-amber-900 font-semibold py-3 px-6 rounded-lg text-center transition-colors">
             ☀️ Sunlight Guide
           </a>
-          <a href="/guides/soil" className="bg-stone-200 hover:bg-stone-300 text-stone-900 font-semibold py-3 px-6 rounded-lg text-center transition-colors">
+          <a href="/plantcare/soil" className="bg-stone-200 hover:bg-stone-300 text-stone-900 font-semibold py-3 px-6 rounded-lg text-center transition-colors">
             🌱 Soil Guide
           </a>
-          <a href="/guides/fertilizer" className="bg-green-100 hover:bg-green-200 text-green-900 font-semibold py-3 px-6 rounded-lg text-center transition-colors">
+          <a href="/plantcare/fertilizer" className="bg-green-100 hover:bg-green-200 text-green-900 font-semibold py-3 px-6 rounded-lg text-center transition-colors">
             🌿 Fertilizer Guide
           </a>
         </div>

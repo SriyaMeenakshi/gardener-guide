@@ -8,7 +8,8 @@ export const careTips=[
     {
         title:"Sunlight",
         icon: "icons/sunshine.svg",
-        description:"Understand sunlight requirements."
+        description:"Understand sunlight requirements.",
+        slug: "sunlight"
     },
     {
         title:"Soil",
