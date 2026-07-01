@@ -27,7 +27,8 @@ export const careTips=[
     {
         title:"Pruning ",
         icon: "icons/pruning.svg",
-        description:"Learn how to prune your plants effectively."
+        description:"Learn how to prune your plants effectively.",
+        slug: "pruning"
     },
     {
         title:"Pest Control",
