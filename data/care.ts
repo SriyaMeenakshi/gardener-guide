@@ -20,7 +20,8 @@ export const careTips=[
     {
         title:"Fertilizer",
         icon: "icons/fertilizer.svg",
-        description:"Discover the best fertilizers for your plants."
+        description:"Discover the best fertilizers for your plants.",
+        slug: "fertilizer"
 
     },
     {

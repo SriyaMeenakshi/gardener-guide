@@ -1,9 +1,11 @@
+import Navbar from "@/components/Navbar";
 export default function FertilizerGuidePage() {
   return (
-    <main className="max-w-5xl mx-auto p-4 md:p-8 text-gray-800 bg-emerald-50/50 rounded-xl shadow-md mt-8 border border-emerald-100">
+    <main className="max-w-5xl mx-auto p-4 md:p-8 text-gray-800 bg-white rounded-xl shadow-md mt-8 border border-emerald-100">
+      <Navbar />
       <img
         src="/guides/fertilizer-hero.jpg"
-        alt="Person pouring liquid fertilizer into a watering can"
+        alt="Person pouring liquid fertilizer using spray"
         className="w-full h-80 md:h-[400px] object-cover rounded-xl shadow-sm"
       />
 
@@ -59,7 +61,7 @@ export default function FertilizerGuidePage() {
           ❌ Common Fertilizer Mistakes
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-xl shadow-md overflow-hidden border border-red-100">
+          <div className="bg-stone-300 rounded-xl shadow-md overflow-hidden border border-red-100">
             <img src="/guides/fertilizer-burn.jpg" alt="Plant leaves with crispy burnt edges from excess fertilizer" className="w-full h-56 object-cover" />
             <div className="p-6">
               <h3 className="text-2xl font-bold text-red-700 mb-2">Fertilizer Burn</h3>
@@ -70,8 +72,8 @@ export default function FertilizerGuidePage() {
               </ul>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-md overflow-hidden border border-orange-100">
-            <img src="/guides/dormant-plant.jpg" alt="A dormant winter houseplant" className="w-full h-56 object-cover" />
+          <div className="bg-stone-300 rounded-xl shadow-md overflow-hidden border border-orange-100">
+            <img src="/guides/dormant.jpg" alt="A dormant winter houseplant" className="w-full h-56 object-cover" />
             <div className="p-6">
               <h3 className="text-2xl font-bold text-orange-600 mb-2">Feeding Dormant Plants</h3>
               <p className="text-sm text-gray-600 mb-4">Plants stop growing during the short, cold days of winter. If you feed them when they aren't actively growing, the fertilizer just sits in the soil and burns the roots.</p>
@@ -102,10 +104,28 @@ export default function FertilizerGuidePage() {
           <img src="/guides/fertilizer-video-thumbnail.jpg" alt="Video thumbnail for fertilizing house and garden plants" className="w-full h-64 object-cover brightness-75 group-hover:brightness-50 transition-all duration-300" />
           <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
             <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-md">Watch the Fertilizer Tutorial</h2>
-            <a href="https://www.youtube.com/results?search_query=how+to+fertilize+plants" target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-500 text-white font-bold px-8 py-3 rounded-full transition-colors flex items-center shadow-lg">
+            <a href="https://youtu.be/lj21NAUh74E?si=qMoEg6g4Py4oDacC" target="_blank" rel="noopener noreferrer" className="bg-green-600 hover:bg-green-500 text-white font-bold px-8 py-3 rounded-full transition-colors flex items-center shadow-lg">
               <span className="text-xl mr-2">▶</span> Play Video
             </a>
           </div>
+        </div>
+      </section>
+      {/* Related Articles Footer */}
+      <section className="border-t border-amber-200 pt-10">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">🌿 Related Guides</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <a href="/plantcare/watering" className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-400 transition-all text-center group">
+            <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">💧</span>
+            <h3 className="font-bold text-gray-800">Watering</h3>
+          </a>
+          <a href="/plantcare/soil" className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-amber-700 transition-all text-center group">
+            <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">🌱</span>
+            <h3 className="font-bold text-gray-800">Soil & Potting</h3>
+          </a>
+          <a href="/plantcare/sunlight" className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-green-500 transition-all text-center group">
+            <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">🌿</span>
+            <h3 className="font-bold text-gray-800">Sunlight</h3>
+          </a>
         </div>
       </section>
     </main>
