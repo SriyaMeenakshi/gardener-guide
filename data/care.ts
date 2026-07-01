@@ -14,7 +14,8 @@ export const careTips=[
     {
         title:"Soil",
         icon: "icons/soil.svg",
-        description:"Choose the right soil for healthy plants."
+        description:"Choose the right soil for healthy plants.",
+        slug: "soil"
     },
     {
         title:"Fertilizer",
