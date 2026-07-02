@@ -33,6 +33,7 @@ export const careTips=[
     {
         title:"Pest Control",
         icon: "icons/pest.svg",
-        description:"Discover effective methods for controlling pests in your garden."
+        description:"Discover effective methods for controlling pests in your garden.",
+        slug: "pestcontrol"
     }
 ];
