@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function CareCard({ tip }) {
+export default function CareCard({ tip }: { tip: { title: string; description: string; icon: string; slug: string } }) {
   return (
     <div
       className="
