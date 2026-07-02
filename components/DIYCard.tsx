@@ -1,4 +1,4 @@
-export default function DIYCard({project}){
+export default function DIYCard({project}: {project: {title: string; description: string; image: string; link: string}}) {
 
 return(
 

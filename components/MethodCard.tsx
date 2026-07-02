@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function MethodCard({method}){
+export default function MethodCard({method : method}: {method: {name: string; image: string; slug: string}}) {
 
 return(
 

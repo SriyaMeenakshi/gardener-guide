@@ -1,6 +1,6 @@
 import PlantCard from "./PlantCard";
 
-export default function PlantCategory({category}){
+export default function PlantCategory({category :category}: {category: {title: string; plants: {name: string; image: string; slug: string}[]}}) {
 
 return(
 

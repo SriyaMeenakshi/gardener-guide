@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function PlantCard({ plant }) {
+export default function PlantCard({ plant: plant }: { plant: { name: string; image: string; slug: string } }) {
 
 return (
 
