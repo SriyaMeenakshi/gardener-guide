@@ -43,7 +43,7 @@ export default function HibiscusArticlePage() {
           {/* Hardy Hibiscus */}
           <div className="bg-stone-300 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
             <img 
-              src="/plants/hibiscus/hardy.JPG" 
+              src="/plants/hibiscus/hardy.jpg" 
               alt="Massive Hardy Hibiscus bloom" 
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
