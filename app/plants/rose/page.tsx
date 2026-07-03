@@ -6,7 +6,7 @@ export default function RoseArticlePage() {
 <main className="max-w-5xl mx-auto p-4 md:p-8 text-gray-800 bg-stone-50 rounded-xl shadow-md mt-8 border border-stone-200">   
         <Navbar />   
     <img
-        src="/plants/rose/rose-hero.jpg"
+        src="/plants/rose/rose-hero.JPG"
         alt="Beautiful blooming red rose in a home garden"
         className="w-full h-80 md:h-[400px] object-cover rounded-xl shadow-md"
       />
@@ -44,7 +44,7 @@ export default function RoseArticlePage() {
           {/* Indian Variety */}
           <div className="bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/plants/rose/desirose.jpg" 
+              src="/plants/rose/desirose.JPG" 
               alt="Indian Desi Gulab" 
               className="w-full h-56 object-cover rounded-lg mb-4"
             />

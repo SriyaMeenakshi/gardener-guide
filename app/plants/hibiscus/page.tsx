@@ -5,7 +5,7 @@ export default function HibiscusArticlePage() {
       <Navbar />
       {/* Hero Image */}
       <img
-        src="/plants/hibiscus/hero.jpg"
+        src="/plants/hibiscus/hero.JPG"
         alt="Vibrant tropical hibiscus flower hanging "
         className="w-full h-80 md:h-[400px] object-cover rounded-xl shadow-sm"
       />
@@ -30,7 +30,7 @@ export default function HibiscusArticlePage() {
           {/* Tropical Hibiscus */}
           <div className="bg-stone-300 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
             <img 
-              src="/plants/hibiscus/tropical.jpg" 
+              src="/plants/hibiscus/tropical.JPG" 
               alt="Glossy leaved Tropical Hibiscus" 
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
@@ -43,7 +43,7 @@ export default function HibiscusArticlePage() {
           {/* Hardy Hibiscus */}
           <div className="bg-stone-300 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
             <img 
-              src="/plants/hibiscus/hardy.jpg" 
+              src="/plants/hibiscus/hardy.JPG" 
               alt="Massive Hardy Hibiscus bloom" 
               className="w-full h-48 object-cover rounded-lg mb-4"
             />

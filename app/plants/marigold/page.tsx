@@ -5,7 +5,7 @@ export default function MarigoldArticlePage() {
       <Navbar />
       {/* Hero Image */}
       <img
-        src="/plants/marigold/hero.jpg"
+        src="/plants/marigold/hero.JPG"
         alt="Vibrant orange and yellow marigold flowers in a garden bed"
         className="w-full h-80 md:h-[500px] object-cover rounded-xl shadow-sm"
       />
