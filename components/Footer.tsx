@@ -7,9 +7,6 @@ export default function Footer() {
         Inspired by a childhood spent in the garden 🏡. Brought to life by Sriya Meenakshi.💚
       </p>
       
-      <p className="text-sm italic text-gray-300">
-        Raised among the flowers 🌹. Designed with ❤️ by a lifelong gardener. 🌳
-      </p> 
     </footer>
   );
 }
