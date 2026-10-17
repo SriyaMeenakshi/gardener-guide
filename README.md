@@ -361,7 +361,7 @@ https://www.linkedin.com/in/sriya-meenakshi-chalamalasetty
 
 ### 🌼 Inspired by a childhood spent in the garden.
 
-Every plant tells a story, and every project is a seed that grows with patience, curiosity, and consistency.
+
 
 **Built with 💚 using Next.js, React, TypeScript, and Tailwind CSS.**
 
