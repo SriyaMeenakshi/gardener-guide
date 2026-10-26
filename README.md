@@ -163,7 +163,6 @@ Each article contains:
 | 🔷 TypeScript | Type Safety |
 | 🎨 Tailwind CSS | Styling & Responsive Design |
 | 🟩 Node.js | Development Runtime |
-| 🔀 Git | Version Control |
 | 🐙 GitHub | Source Code Hosting |
 | ▲ Vercel | Deployment |
 
