@@ -254,7 +254,6 @@ Some ideas planned for future versions include:
 - 🌍 More Plant Guides
 - 🌼 Additional Gardening Methods
 - 🐝 Pollinator Friendly Garden Guide
-- 📱 Progressive Web App (PWA)
 - ♿ Accessibility Improvements
 
 ---
