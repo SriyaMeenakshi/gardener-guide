@@ -34,7 +34,7 @@ The project combines my passion for technology with my love for nature and aims 
 
 ## 🌸 Plants for Your Home Garden
 
-Explore different categories of plants including:
+Explore types of plants including:
 
 - 🌹 Flowering Plants
 - 🌿 Medicinal Plants
