@@ -5,7 +5,8 @@ import Plant from "../models/Plant.js";
 import CareGuide from "../models/CareGuide.js";
 import Method from "../models/Method.js";
 import DIY from "../models/DIY.js";
-import { plants, careGuides, methods, diyProjects } from "./data.js";
+import Disease from "../models/Disease.js";
+import { plants, careGuides, methods, diyProjects, diseases } from "./data.js";
 
 // Validate everything before touching the database.
 async function validateAll(Model, docs) {
@@ -23,6 +24,7 @@ async function run() {
   await validateAll(CareGuide, careGuides);
   await validateAll(Method, methods);
   await validateAll(DIY, diyProjects);
+  await validateAll(Disease, diseases);
   if (process.argv.includes("--check")) {
     console.log("Seed data is valid (--check: database untouched).");
     return;
@@ -36,11 +38,12 @@ async function run() {
   await upsert(Plant, plants);
   await upsert(CareGuide, careGuides);
   await upsert(Method, methods);
+  await upsert(Disease, diseases);
   // DIY has no slug, so replace the collection (it only holds seed content).
   await DIY.deleteMany({});
   await DIY.insertMany(diyProjects);
 
-  console.log(`Seeded ${plants.length} plants, ${careGuides.length} care guides, ${methods.length} methods, ${diyProjects.length} DIY projects.`);
+  console.log(`Seeded ${plants.length} plants, ${careGuides.length} care guides, ${methods.length} methods, ${diyProjects.length} DIY projects, ${diseases.length} plant problems.`);
 }
 
 try {

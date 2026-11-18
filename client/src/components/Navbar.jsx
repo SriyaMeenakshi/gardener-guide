@@ -6,6 +6,7 @@ const links = [
   { to: "/plantcare", label: "Plant Care Tips" },
   { to: "/diy", label: "DIY Garden Ideas" },
   { to: "/methods", label: "Gardening Methods" },
+  { to: "/diagnose", label: "Plant Doctor" },
 ];
 
 export default function Navbar({ dark = false }) {

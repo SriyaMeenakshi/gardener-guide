@@ -6,13 +6,15 @@ const BASE = import.meta.env.VITE_API_URL || "/api";
 
 async function request(path, { method = "GET", body, signal, token = getToken() } = {}) {
   const headers = {};
-  if (body !== undefined) headers["Content-Type"] = "application/json";
+  // FormData (file uploads) must NOT get a Content-Type from us: the browser adds it with the multipart boundary.
+  const isForm = typeof FormData !== "undefined" && body instanceof FormData;
+  if (body !== undefined && !isForm) headers["Content-Type"] = "application/json";
   if (token) headers.Authorization = `Bearer ${token}`;
 
   const res = await fetch(`${BASE}${path}`, {
     method,
     headers,
-    body: body === undefined ? undefined : JSON.stringify(body),
+    body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
     signal,
   });
 

@@ -2,6 +2,7 @@
 export { plants } from "./plants.js";
 export { careGuides } from "./care.js";
 export { methods } from "./methods.js";
+export { diseases } from "./diseases.js";
 
 const yt = (id, qs) => ({ image: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, link: `https://youtu.be/${id}?si=${qs}` });
 

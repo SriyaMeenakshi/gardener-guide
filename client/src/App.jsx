@@ -9,6 +9,7 @@ import { CareList, MethodList, DIYList } from "./pages/Lists";
 import { CareDetail, MethodDetail } from "./pages/Articles";
 import { Login, Register } from "./pages/AuthPages";
 import MyGarden from "./pages/MyGarden";
+import Diagnose from "./pages/Diagnose";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/my-garden" element={<MyGarden />} />
+          <Route path="/diagnose" element={<Diagnose />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
