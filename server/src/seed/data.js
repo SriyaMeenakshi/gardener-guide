@@ -1,24 +1,7 @@
-// Seed data migrated from v1 (data/*.ts). Plant articles live in plants.js.
+// Seed data migrated from v1. Long articles live in their own files; DIY projects are small enough to stay here.
 export { plants } from "./plants.js";
-
-
-export const careGuides = [
-  { title: "Watering Guide", slug: "watering", icon: "/icons/watering.svg", description: "Learn how to water your plants properly to prevent root rot and wilting." },
-  { title: "Sunlight", slug: "sunlight", icon: "/icons/sunshine.svg", description: "Understand sunlight requirements." },
-  { title: "Soil", slug: "soil", icon: "/icons/soil.svg", description: "Choose the right soil for healthy plants." },
-  { title: "Fertilizer", slug: "fertilizer", icon: "/icons/fertilizer.svg", description: "Discover the best fertilizers for your plants." },
-  { title: "Pruning", slug: "pruning", icon: "/icons/pruning.svg", description: "Learn how to prune your plants effectively." },
-  { title: "Pest Control", slug: "pestcontrol", icon: "/icons/pest.svg", description: "Discover effective methods for controlling pests in your garden." },
-];
-
-export const methods = [
-  { name: "Horticulture", slug: "horticulture", image: "/methods/horticulture.jpg" },
-  { name: "Terrace Gardening", slug: "terrace-gardening", image: "/methods/terracegardening.jpg" },
-  { name: "Drip Irrigation", slug: "drip-irrigation", image: "/methods/dripirrigation.jpg" },
-  { name: "Vertical Gardening", slug: "vertical-gardening", image: "/methods/vertical.jpg" },
-  { name: "Organic Gardening", slug: "organic-gardening", image: "/methods/organic.jpg" },
-  { name: "Hydroponics", slug: "hydroponics", image: "/methods/hydroponics.jpg" },
-];
+export { careGuides } from "./care.js";
+export { methods } from "./methods.js";
 
 const yt = (id, qs) => ({ image: `https://img.youtube.com/vi/${id}/hqdefault.jpg`, link: `https://youtu.be/${id}?si=${qs}` });
 
