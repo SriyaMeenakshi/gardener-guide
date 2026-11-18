@@ -1,7 +1,8 @@
 // Validates req.body against a zod schema and replaces it with the parsed (trimmed, typed) result.
 // Type errors from zod are generic ("expected string, received undefined"), so name the field instead.
 function describe(issue, body) {
-  if (issue.code !== "invalid_type") return issue.message;
+  // Keep messages we wrote ourselves; only replace zod's default "Invalid input: expected X, received Y".
+  if (issue.code !== "invalid_type" || !issue.message.startsWith("Invalid input")) return issue.message;
   const field = issue.path.join(".") || "Request body";
   return body?.[issue.path[0]] === undefined ? `${field} is required` : `${field} is invalid`;
 }

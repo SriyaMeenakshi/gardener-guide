@@ -27,6 +27,9 @@ export default function Navbar({ dark = false }) {
         {!loading &&
           (user ? (
             <span className="flex items-center gap-3">
+              <NavLink to="/my-garden" className={linkClass}>
+                My Garden
+              </NavLink>
               <span className="text-green-600 font-medium">Hi, {user.name.split(" ")[0]}</span>
               <button onClick={logout} className="underline hover:text-green-600">
                 Log out

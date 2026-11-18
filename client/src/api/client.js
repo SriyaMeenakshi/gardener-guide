@@ -22,8 +22,11 @@ async function request(path, { method = "GET", body, signal, token = getToken() 
     err.status = res.status;
     throw err;
   }
-  return res.json();
+  // 204 No Content (e.g. after DELETE) has no body to parse.
+  return res.status === 204 ? null : res.json();
 }
 
 export const apiGet = (path, opts) => request(path, opts);
 export const apiPost = (path, body, opts) => request(path, { ...opts, method: "POST", body });
+export const apiPut = (path, body, opts) => request(path, { ...opts, method: "PUT", body });
+export const apiDelete = (path, opts) => request(path, { ...opts, method: "DELETE" });

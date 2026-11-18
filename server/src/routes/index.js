@@ -1,11 +1,13 @@
 import { Router } from "express";
 import authRoutes from "./auth.js";
+import gardenRoutes from "./garden.js";
 import { listPlants, getPlant } from "../controllers/plantController.js";
 import { care, methods, listDIY } from "../controllers/contentController.js";
 
 const router = Router();
 
 router.use("/auth", authRoutes);
+router.use("/garden", gardenRoutes);
 
 router.get("/plants", listPlants);
 router.get("/plants/:slug", getPlant);

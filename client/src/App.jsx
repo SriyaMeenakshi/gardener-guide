@@ -8,6 +8,8 @@ import PlantDetail from "./pages/PlantDetail";
 import { CareList, MethodList, DIYList } from "./pages/Lists";
 import { CareDetail, MethodDetail } from "./pages/Articles";
 import { Login, Register } from "./pages/AuthPages";
+import MyGarden from "./pages/MyGarden";
+import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
 function Layout() {
@@ -40,6 +42,9 @@ export default function App() {
         <Route path="/diy" element={<DIYList />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/my-garden" element={<MyGarden />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

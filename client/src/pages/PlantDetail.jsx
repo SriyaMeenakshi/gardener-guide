@@ -1,6 +1,51 @@
-import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import useApi from "../hooks/useApi";
+import { apiPost } from "../api/client";
+import { useAuth } from "../context/AuthContext";
 import { Loading, ErrorMessage } from "../components/Status";
+
+function AddToGarden({ plant }) {
+  const { user, loading, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [state, setState] = useState({ status: "idle", error: "" }); // idle | adding | added
+
+  const add = async () => {
+    if (!user) return navigate("/login", { state: { from: location.pathname } });
+    setState({ status: "adding", error: "" });
+    try {
+      await apiPost("/garden", { plantId: plant._id });
+      setState({ status: "added", error: "" });
+    } catch (err) {
+      if (err.status === 401) return logout();
+      setState({ status: "idle", error: err.message });
+    }
+  };
+
+  return (
+    <div className="mt-6 flex flex-wrap items-center gap-4">
+      <button
+        onClick={add}
+        disabled={loading || state.status === "adding"}
+        className="bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-semibold px-6 py-3 rounded-lg transition"
+      >
+        {state.status === "adding" ? "Adding…" : state.status === "added" ? "🌱 Add another" : "🌱 Add to My Garden"}
+      </button>
+      {state.status === "added" && (
+        <span role="status" className="text-green-800">
+          Added! <Link to="/my-garden" className="underline font-medium">View My Garden →</Link>
+        </span>
+      )}
+      {state.error && (
+        <span role="alert" className="text-red-700">
+          {state.error}
+        </span>
+      )}
+      {!user && !loading && <span className="text-sm text-gray-500">Log in to track this plant's watering.</span>}
+    </div>
+  );
+}
 
 const Badge = ({ label, value }) => (
   <div className="bg-white rounded-lg shadow-sm p-4 text-center">
@@ -42,6 +87,8 @@ export default function PlantDetail() {
         <Badge label="Water" value={plant.water} />
         <Badge label="Difficulty" value={plant.difficulty} />
       </div>
+
+      <AddToGarden plant={plant} />
 
       {plant.extraSections?.map((s) => (
         <section key={s.heading} className="mt-10 bg-amber-50 border border-amber-200 rounded-xl p-6">
