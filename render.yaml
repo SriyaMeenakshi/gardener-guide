@@ -5,6 +5,7 @@ services:
     name: gardener-guide-api
     runtime: node
     rootDir: server
+    region: singapore # close to the Atlas cluster (Singapore) and to users in India
     plan: free
     # branch: v2        # uncomment to deploy from the v2 branch before it is merged into main
     buildCommand: npm ci
