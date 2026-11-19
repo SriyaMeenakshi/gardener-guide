@@ -1,14 +1,34 @@
 // Single place that knows where the API lives.
 // In dev, Vite proxies /api to the Express server; in production set VITE_API_URL.
+import { getToken } from "./token";
+
 const BASE = import.meta.env.VITE_API_URL || "/api";
 
-export async function apiGet(path, { signal } = {}) {
-  const res = await fetch(`${BASE}${path}`, { signal });
+async function request(path, { method = "GET", body, signal, token = getToken() } = {}) {
+  const headers = {};
+  // FormData (file uploads) must NOT get a Content-Type from us: the browser adds it with the multipart boundary.
+  const isForm = typeof FormData !== "undefined" && body instanceof FormData;
+  if (body !== undefined && !isForm) headers["Content-Type"] = "application/json";
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const res = await fetch(`${BASE}${path}`, {
+    method,
+    headers,
+    body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
+    signal,
+  });
+
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    const err = new Error(body.message || `Request failed (${res.status})`);
+    const data = await res.json().catch(() => ({}));
+    const err = new Error(data.message || `Request failed (${res.status})`);
     err.status = res.status;
     throw err;
   }
-  return res.json();
+  // 204 No Content (e.g. after DELETE) has no body to parse.
+  return res.status === 204 ? null : res.json();
 }
+
+export const apiGet = (path, opts) => request(path, opts);
+export const apiPost = (path, body, opts) => request(path, { ...opts, method: "POST", body });
+export const apiPut = (path, body, opts) => request(path, { ...opts, method: "PUT", body });
+export const apiDelete = (path, opts) => request(path, { ...opts, method: "DELETE" });

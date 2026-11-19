@@ -1,0 +1,12 @@
+# Training environment (CPU only). Install PyTorch from the CPU index first:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+numpy
+pillow
+scikit-learn
+pyarrow
+huggingface_hub
+remotezip
+requests
+onnx
+onnxruntime
+matplotlib

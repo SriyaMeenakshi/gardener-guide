@@ -1,0 +1,330 @@
+{
+  "dataset": "PlantVillage colour images (CC BY-SA 3.0 per its Hugging Face card), official leaf-grouped split",
+  "backbone": "MobileNetV2 (ImageNet pretrained, frozen) + trained classifier head",
+  "head": {
+    "hidden": 512,
+    "class_weighted": false,
+    "weight_decay": 0.0001,
+    "dropout": 0.2
+  },
+  "classes": 38,
+  "test": {
+    "images": 9846,
+    "accuracy": 0.9827,
+    "macro_f1": 0.9791,
+    "top_confusions": [
+      {
+        "count": 17,
+        "true": "Potato___Late_blight",
+        "predicted": "Tomato___Late_blight"
+      },
+      {
+        "count": 13,
+        "true": "Tomato___Spider_mites Two-spotted_spider_mite",
+        "predicted": "Tomato___Target_Spot"
+      },
+      {
+        "count": 10,
+        "true": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+        "predicted": "Corn_(maize)___Northern_Leaf_Blight"
+      },
+      {
+        "count": 9,
+        "true": "Tomato___Early_blight",
+        "predicted": "Tomato___Target_Spot"
+      },
+      {
+        "count": 9,
+        "true": "Tomato___Early_blight",
+        "predicted": "Tomato___Late_blight"
+      },
+      {
+        "count": 9,
+        "true": "Corn_(maize)___Northern_Leaf_Blight",
+        "predicted": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot"
+      },
+      {
+        "count": 8,
+        "true": "Tomato___Target_Spot",
+        "predicted": "Tomato___Septoria_leaf_spot"
+      },
+      {
+        "count": 6,
+        "true": "Raspberry___healthy",
+        "predicted": "Cherry_(including_sour)___healthy"
+      }
+    ]
+  },
+  "confidence_tradeoff_on_test": {
+    "0.5": {
+      "answered": 0.9715,
+      "accuracy_when_answered": 0.9913
+    },
+    "0.7": {
+      "answered": 0.9259,
+      "accuracy_when_answered": 0.9967
+    },
+    "0.8": {
+      "answered": 0.8827,
+      "accuracy_when_answered": 0.9979
+    },
+    "0.9": {
+      "answered": 0.7753,
+      "accuracy_when_answered": 0.9997
+    },
+    "0.95": {
+      "answered": 0.5393,
+      "accuracy_when_answered": 1.0
+    },
+    "0.99": {
+      "answered": 0.0438,
+      "accuracy_when_answered": 1.0
+    }
+  },
+  "recommended_min_confidence": 0.88,
+  "out_of_scope_probe": {
+    "note": "photos from this website of plants the model was never trained on; ANY disease label is wrong by construction",
+    "images": 45,
+    "share_labelled_with_confidence_ge_0.9": 0.0,
+    "per_plant": {
+      "rose": {
+        "images": 6,
+        "mean_top_confidence": 0.261,
+        "share_confidence_ge_0.5": 0.0,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+            4
+          ],
+          [
+            "Strawberry___Leaf_scorch",
+            1
+          ],
+          [
+            "Cherry_(including_sour)___Powdery_mildew",
+            1
+          ]
+        ]
+      },
+      "hibiscus": {
+        "images": 5,
+        "mean_top_confidence": 0.281,
+        "share_confidence_ge_0.5": 0.0,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            3
+          ],
+          [
+            "Corn_(maize)___Common_rust_",
+            1
+          ],
+          [
+            "Corn_(maize)___healthy",
+            1
+          ]
+        ]
+      },
+      "marigold": {
+        "images": 5,
+        "mean_top_confidence": 0.3,
+        "share_confidence_ge_0.5": 0.0,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            2
+          ],
+          [
+            "Apple___Black_rot",
+            1
+          ],
+          [
+            "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+            1
+          ]
+        ]
+      },
+      "tulasi": {
+        "images": 6,
+        "mean_top_confidence": 0.339,
+        "share_confidence_ge_0.5": 0.167,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            4
+          ],
+          [
+            "Corn_(maize)___Common_rust_",
+            1
+          ],
+          [
+            "Tomato___Late_blight",
+            1
+          ]
+        ]
+      },
+      "mint": {
+        "images": 5,
+        "mean_top_confidence": 0.535,
+        "share_confidence_ge_0.5": 0.6,
+        "share_confidence_ge_0.8": 0.4,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            2
+          ],
+          [
+            "Corn_(maize)___Northern_Leaf_Blight",
+            1
+          ],
+          [
+            "Cherry_(including_sour)___Powdery_mildew",
+            1
+          ]
+        ]
+      },
+      "aloevera": {
+        "images": 5,
+        "mean_top_confidence": 0.597,
+        "share_confidence_ge_0.5": 0.8,
+        "share_confidence_ge_0.8": 0.2,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Corn_(maize)___healthy",
+            2
+          ],
+          [
+            "Peach___Bacterial_spot",
+            1
+          ],
+          [
+            "Strawberry___Leaf_scorch",
+            1
+          ]
+        ]
+      },
+      "coriander": {
+        "images": 2,
+        "mean_top_confidence": 0.424,
+        "share_confidence_ge_0.5": 0.5,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            2
+          ]
+        ]
+      },
+      "lemon": {
+        "images": 5,
+        "mean_top_confidence": 0.308,
+        "share_confidence_ge_0.5": 0.2,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Corn_(maize)___healthy",
+            2
+          ],
+          [
+            "Squash___Powdery_mildew",
+            1
+          ],
+          [
+            "Tomato___Late_blight",
+            1
+          ]
+        ]
+      },
+      "guava": {
+        "images": 4,
+        "mean_top_confidence": 0.527,
+        "share_confidence_ge_0.5": 0.5,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            2
+          ],
+          [
+            "Orange___Haunglongbing_(Citrus_greening)",
+            2
+          ]
+        ]
+      },
+      "papaya": {
+        "images": 2,
+        "mean_top_confidence": 0.275,
+        "share_confidence_ge_0.5": 0.0,
+        "share_confidence_ge_0.8": 0.0,
+        "share_confidence_ge_0.9": 0.0,
+        "most_common_labels": [
+          [
+            "Strawberry___Leaf_scorch",
+            1
+          ],
+          [
+            "Orange___Haunglongbing_(Citrus_greening)",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "related_crops_probe": {
+    "tomato": {
+      "images": 6,
+      "mean_top_confidence": 0.421,
+      "share_confidence_ge_0.5": 0.333,
+      "share_confidence_ge_0.8": 0.0,
+      "share_confidence_ge_0.9": 0.0,
+      "most_common_labels": [
+        [
+          "Strawberry___Leaf_scorch",
+          3
+        ],
+        [
+          "Corn_(maize)___healthy",
+          2
+        ],
+        [
+          "Tomato___healthy",
+          1
+        ]
+      ]
+    },
+    "chilli": {
+      "images": 5,
+      "mean_top_confidence": 0.281,
+      "share_confidence_ge_0.5": 0.0,
+      "share_confidence_ge_0.8": 0.0,
+      "share_confidence_ge_0.9": 0.0,
+      "most_common_labels": [
+        [
+          "Corn_(maize)___healthy",
+          2
+        ],
+        [
+          "Strawberry___Leaf_scorch",
+          2
+        ],
+        [
+          "Corn_(maize)___Common_rust_",
+          1
+        ]
+      ]
+    }
+  }
+}
