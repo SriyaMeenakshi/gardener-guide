@@ -1,0 +1,26 @@
+# Render Blueprint for the API (https://render.com/docs/blueprint-spec).
+# The React client is deployed separately on Vercel (root directory: client).
+services:
+  - type: web
+    name: gardener-guide-api
+    runtime: node
+    rootDir: server
+    plan: free
+    # branch: v2        # uncomment to deploy from the v2 branch before it is merged into main
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI # your MongoDB Atlas connection string; paste it in the Render dashboard, never commit it
+        sync: false
+      - key: CLIENT_ORIGIN # your Vercel site, e.g. https://gardener-guide.vercel.app (comma-separate several)
+        sync: false
+      - key: JWT_SECRET # Render generates a long random value
+        generateValue: true
+      - key: DETECTOR_PROVIDER # the free on-device model; no API key or per-photo cost
+        value: local
