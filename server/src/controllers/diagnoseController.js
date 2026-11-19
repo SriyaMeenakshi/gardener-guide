@@ -50,6 +50,12 @@ export const diagnose = asyncHandler(async (req, res) => {
   res.status(201).json(present(doc));
 });
 
+// GET /api/diagnose/info  (which checker is active and, for the on-device model, which crops it knows)
+export const info = asyncHandler(async (req, res) => {
+  const detector = getDetector();
+  res.json({ provider: detector.name, ...(detector.describe ? await detector.describe() : {}) });
+});
+
 // GET /api/diagnose/history  (the signed-in user's own results, newest first)
 export const history = asyncHandler(async (req, res) => {
   const docs = await Diagnosis.find({ user: req.user._id }).sort({ createdAt: -1 }).limit(HISTORY_LIMIT).populate("condition");

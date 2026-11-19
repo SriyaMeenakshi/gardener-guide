@@ -2,7 +2,7 @@ import { Router } from "express";
 import rateLimit from "express-rate-limit";
 import { requireAuth } from "../middleware/auth.js";
 import { uploadImage } from "../middleware/upload.js";
-import { diagnose, history, removeDiagnosis } from "../controllers/diagnoseController.js";
+import { diagnose, history, info, removeDiagnosis } from "../controllers/diagnoseController.js";
 
 const router = Router();
 router.use(requireAuth);
@@ -18,6 +18,7 @@ const diagnoseLimiter = rateLimit({
 });
 
 router.post("/", diagnoseLimiter, uploadImage, diagnose);
+router.get("/info", info);
 router.get("/history", history);
 router.delete("/:id", removeDiagnosis);
 

@@ -113,8 +113,26 @@ function HistoryRow({ item, onDelete, busy }) {
   );
 }
 
+// Tells people up front what the free on-device model can and cannot do, so they are not misled.
+function ScopeNotice({ info }) {
+  if (info?.provider !== "local") return null;
+  return (
+    <aside className="max-w-2xl mx-auto mb-6 rounded-xl border border-amber-300 bg-amber-50 p-5 text-sm text-gray-800">
+      <p className="font-semibold">Before you start: this checker only knows some crops</p>
+      <p className="mt-2">
+        It runs on a free model trained on leaf photos of: <strong>{info.supportedCrops.join(", ")}</strong>.
+      </p>
+      <p className="mt-2">
+        It can't recognise other plants (for example roses, mint or hibiscus), and for those it may still give a confident but wrong answer.
+        {info.testAccuracy ? ` It was right ${Math.round(info.testAccuracy * 100)}% of the time on its own test photos; on ordinary garden photos it will do worse.` : ""}
+      </p>
+    </aside>
+  );
+}
+
 export default function Diagnose() {
   const { logout } = useAuth();
+  const [info, setInfo] = useState(null);
   const fileInput = useRef(null);
   const [preview, setPreview] = useState(null); // { file, url }
   const [checking, setChecking] = useState(false);
@@ -131,6 +149,14 @@ export default function Diagnose() {
     }
     return false;
   }, [logout]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    apiGet("/diagnose/info", { signal: controller.signal })
+      .then(setInfo)
+      .catch(() => {}); // the notice is helpful but not essential
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -205,6 +231,8 @@ export default function Diagnose() {
   return (
     <>
       <PageHeader title="🩺 Plant Doctor" subtitle="Upload a photo of a leaf, flower or stem and get a suggestion for what might be wrong." />
+
+      <ScopeNotice info={info} />
 
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-xl shadow-md p-6">
