@@ -15,14 +15,12 @@ const fail = (title, hints) => {
 
 if (!uri) fail("MONGO_URI is empty in server/.env", ["Paste your Atlas connection string after MONGO_URI= (see docs/ATLAS.md)."]);
 if (!/^mongodb(\+srv)?:\/\//.test(uri)) fail("MONGO_URI doesn't look like a MongoDB connection string", ['It should start with "mongodb+srv://".']);
-if (/<password>|<db_password>|<username>|<user>/.test(uri)) fail("MONGO_URI still contains a placeholder", ["Replace <password> with your database user's password (without the < > brackets)."]);
+if (/<(password|db_password|username|user)>/.test(uri)) fail("MONGO_URI still contains a placeholder", ["Replace <db_password> with your database user's password."]);
+if (/:<[^@]*>@/.test(uri)) fail("The password in MONGO_URI is wrapped in < > brackets", ["Atlas's example shows <db_password> with brackets. Remove the brackets as well as the placeholder text: ...:YOURPASSWORD@..."]);
 
-let dbName;
-try {
-  dbName = new URL(uri.replace(/^mongodb(\+srv)?:/, "http:")).pathname.replace(/^\//, "");
-} catch {
-  fail("MONGO_URI could not be read", ["If your password contains characters like @ : / ? # % they must be URL-encoded, or choose a password with only letters and digits."]);
-}
+// The database name is the path after the host list. (Multi-host "mongodb://a,b,c/db" strings are valid, but
+// are not valid URLs, so match it with a pattern instead of new URL().)
+const dbName = uri.match(/^mongodb(?:\+srv)?:\/\/[^/]+\/([^?]*)/)?.[1] ?? "";
 if (!dbName) console.warn('! The connection string has no database name, so MongoDB would use its default one ("test").\n  Add /gardener-guide right before the "?"  e.g. ...mongodb.net/gardener-guide?retryWrites=true');
 
 try {
