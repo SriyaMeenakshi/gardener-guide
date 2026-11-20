@@ -1,7 +1,121 @@
 @import "tailwindcss";
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f5f7f2;
-  color: #171717;
+/* ---------- Design tokens ---------- */
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+
+  /* Page + text */
+  --color-cream: #faf8f3;
+  --color-ink: #1f2a1d;
+  --color-muted: #5f6e5b;
+
+  /* Primary: leaf green */
+  --color-leaf-50: #f2f8ef;
+  --color-leaf-100: #e2efda;
+  --color-leaf-200: #c7e0b9;
+  --color-leaf-300: #a2c98f;
+  --color-leaf-400: #79ad64;
+  --color-leaf-500: #579141;
+  --color-leaf-600: #427432;
+  --color-leaf-700: #365c2c;
+  --color-leaf-800: #2d4a27;
+  --color-leaf-900: #243d21;
+  --color-leaf-950: #12230f;
+
+  /* Accent: warm clay (used sparingly for emphasis and warnings) */
+  --color-clay-50: #fdf4ee;
+  --color-clay-100: #fae6d7;
+  --color-clay-400: #e3946a;
+  --color-clay-500: #d4743f;
+  --color-clay-600: #b95c2b;
+  --color-clay-700: #944820;
+
+  /* Supporting tints */
+  --color-sun-100: #fcf0c9;
+  --color-sun-700: #8a6510;
+  --color-water-100: #dcedf8;
+  --color-water-700: #1f6694;
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    color: var(--color-leaf-950);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-leaf-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--color-leaf-200);
+  }
+}
+
+/* ---------- Reusable pieces ---------- */
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 disabled:cursor-not-allowed disabled:opacity-55;
+  }
+  .btn-primary {
+    @apply bg-leaf-600 text-white shadow-sm hover:bg-leaf-700 active:bg-leaf-800;
+  }
+  .btn-clay {
+    @apply bg-clay-500 text-white shadow-sm hover:bg-clay-600;
+  }
+  .btn-outline {
+    @apply border border-leaf-200 bg-white text-leaf-800 hover:border-leaf-300 hover:bg-leaf-50;
+  }
+  .btn-light {
+    @apply bg-white text-leaf-900 hover:bg-leaf-50;
+  }
+  .btn-danger {
+    @apply text-clay-700 hover:bg-clay-50;
+  }
+
+  .card {
+    @apply rounded-2xl border border-leaf-100 bg-white shadow-[0_1px_2px_rgba(36,61,33,0.05),0_8px_24px_-12px_rgba(36,61,33,0.12)];
+  }
+  .card-hover {
+    @apply transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_2px_4px_rgba(36,61,33,0.06),0_16px_32px_-12px_rgba(36,61,33,0.22)];
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full bg-leaf-50 px-2.5 py-1 text-xs font-medium text-leaf-800;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-stone-300 bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-stone-400 transition focus:border-leaf-500 focus:outline-none focus:ring-2 focus:ring-leaf-200;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-leaf-900;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.14em] text-leaf-600;
+  }
+  .prose-lead {
+    @apply text-lg leading-relaxed text-muted;
+  }
 }

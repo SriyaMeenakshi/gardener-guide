@@ -21,7 +21,7 @@ function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="grow max-w-6xl w-full mx-auto px-6 pb-8">
+      <main className="container-page grow py-8 md:py-12">
         <Outlet />
       </main>
       <Footer />
@@ -32,8 +32,8 @@ function Layout() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
         <Route path="/plants" element={<Plants />} />
         <Route path="/plants/:slug" element={<PlantDetail />} />
         <Route path="/plantcare" element={<CareList />} />

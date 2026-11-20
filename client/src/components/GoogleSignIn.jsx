@@ -48,14 +48,14 @@ export default function GoogleSignIn() {
   if (!clientId) return null;
   return (
     <div className="mt-6">
-      <div className="flex items-center gap-3 text-sm text-gray-500" aria-hidden="true">
-        <span className="h-px flex-1 bg-gray-300" />
+      <div className="flex items-center gap-3 text-sm text-stone-500" aria-hidden="true">
+        <span className="h-px flex-1 bg-stone-300" />
         or
-        <span className="h-px flex-1 bg-gray-300" />
+        <span className="h-px flex-1 bg-stone-300" />
       </div>
       <div ref={box} className="mt-4 flex justify-center min-h-[44px]" />
       {error && (
-        <p role="alert" className="mt-3 text-center text-sm text-red-700">
+        <p role="alert" className="mt-3 text-center text-sm text-clay-700">
           {error}
         </p>
       )}

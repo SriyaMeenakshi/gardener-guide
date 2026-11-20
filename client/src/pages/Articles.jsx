@@ -1,14 +1,15 @@
 import { useParams, Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight, Leaf, Play } from "lucide-react";
 import useApi from "../hooks/useApi";
 import { Loading, ErrorMessage } from "../components/Status";
 
 function Bullets({ items }) {
   if (!items?.length) return null;
   return (
-    <ul className="mt-3 space-y-2 text-gray-700">
+    <ul className="mt-4 space-y-2.5">
       {items.map((b) => (
-        <li key={b} className="flex gap-2">
-          <span className="text-green-700">•</span>
+        <li key={b} className="flex gap-3 leading-relaxed text-ink/85">
+          <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-leaf-500" aria-hidden="true" />
           <span>{b}</span>
         </li>
       ))}
@@ -18,11 +19,13 @@ function Bullets({ items }) {
 
 function Item({ item }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-5">
-      {item.image && <img src={item.image} alt={item.title} loading="lazy" className="w-full h-56 object-cover rounded-lg mb-4" />}
-      <h3 className="text-xl font-bold text-green-800">{item.title}</h3>
-      {item.body && <p className="mt-2 text-gray-700 leading-relaxed">{item.body}</p>}
-      <Bullets items={item.bullets} />
+    <div className="card overflow-hidden">
+      {item.image && <img src={item.image} alt={item.title} loading="lazy" className="aspect-[16/10] w-full object-cover" />}
+      <div className="p-5">
+        <h3 className="text-lg">{item.title}</h3>
+        {item.body && <p className="mt-2 leading-relaxed text-ink/85">{item.body}</p>}
+        <Bullets items={item.bullets} />
+      </div>
     </div>
   );
 }
@@ -31,12 +34,12 @@ function Section({ section }) {
   // Items with images (e.g. "common mistakes") read best two-up; plain items stack.
   const hasImages = section.items?.some((i) => i.image);
   return (
-    <section className="mt-12">
-      <h2 className="text-3xl font-bold mb-4">{section.heading}</h2>
-      {section.body && <p className="text-gray-700 leading-relaxed">{section.body}</p>}
+    <section className="mt-14">
+      <h2 className="text-2xl md:text-3xl">{section.heading}</h2>
+      {section.body && <p className="mt-4 text-lg leading-relaxed text-ink/85">{section.body}</p>}
       <Bullets items={section.bullets} />
       {section.items?.length > 0 && (
-        <div className={`mt-4 grid gap-5 ${hasImages ? "md:grid-cols-2" : ""}`}>
+        <div className={`mt-6 grid gap-5 ${hasImages ? "md:grid-cols-2" : ""}`}>
           {section.items.map((item) => (
             <Item key={item.title} item={item} />
           ))}
@@ -48,21 +51,23 @@ function Section({ section }) {
 
 function Video({ video }) {
   return (
-    <section className="mt-12 bg-green-900 text-white rounded-xl p-8 text-center">
-      {video.thumbnail && (
-        <a href={video.url} target="_blank" rel="noopener noreferrer">
-          <img src={video.thumbnail} alt={video.heading || "Video thumbnail"} loading="lazy" className="w-full max-w-xl mx-auto rounded-lg mb-6 hover:opacity-90 transition" />
+    <section className="mt-14 overflow-hidden rounded-3xl bg-leaf-900 p-8 text-center md:p-10">
+      {video.thumbnail ? (
+        <a href={video.url} target="_blank" rel="noopener noreferrer" className="group relative mx-auto mb-6 block max-w-xl overflow-hidden rounded-2xl">
+          <img src={video.thumbnail} alt={video.heading || "Video thumbnail"} loading="lazy" className="w-full transition duration-500 group-hover:scale-105" />
+          <span className="absolute inset-0 grid place-items-center bg-leaf-950/20">
+            <span className="grid h-14 w-14 place-items-center rounded-full bg-white/95 text-leaf-700 shadow-lg">
+              <Play size={22} className="ml-0.5 fill-current" aria-hidden="true" />
+            </span>
+          </span>
         </a>
+      ) : (
+        <Leaf size={26} className="mx-auto text-leaf-400" aria-hidden="true" />
       )}
-      <h2 className="text-3xl font-bold mb-4">{video.heading || "Watch the tutorial"}</h2>
-      {video.text && <p className="text-green-100 mb-6 max-w-2xl mx-auto">{video.text}</p>}
-      <a
-        href={video.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-block bg-white text-green-900 hover:bg-green-50 font-bold px-8 py-4 rounded-full transition"
-      >
-        ▶ {video.label}
+      <h2 className="mt-3 text-2xl text-white md:text-3xl">{video.heading || "Watch the tutorial"}</h2>
+      {video.text && <p className="mx-auto mt-3 max-w-xl text-leaf-100/90">{video.text}</p>}
+      <a href={video.url} target="_blank" rel="noopener noreferrer" className="btn btn-light mt-6 !px-6 !py-3">
+        <Play size={16} className="fill-current" aria-hidden="true" /> {video.label}
       </a>
     </section>
   );
@@ -82,33 +87,29 @@ function Article({ resource, backTo, backLabel }) {
   const hero = data.heroImage || data.image;
 
   return (
-    <article className="max-w-3xl mx-auto">
-      <Link to={backTo} className="text-green-700 underline">
-        ← {backLabel}
+    <article className="mx-auto max-w-3xl">
+      <Link to={backTo} className="inline-flex items-center gap-1.5 text-sm font-medium text-leaf-700 hover:text-leaf-900">
+        <ArrowLeft size={16} aria-hidden="true" /> {backLabel}
       </Link>
-      {hero && <img src={hero} alt={title} className="w-full h-72 md:h-80 object-cover rounded-xl shadow-sm mt-4" />}
-      <h1 className="text-4xl md:text-5xl font-extrabold text-green-800 mt-8">{data.headline || title}</h1>
-      {intro && <p className="mt-4 text-lg leading-relaxed text-gray-700">{intro}</p>}
+      {hero && <img src={hero} alt={title} className="mt-4 h-64 w-full rounded-3xl object-cover md:h-80" />}
+      <h1 className="mt-8 text-4xl md:text-5xl">{data.headline || title}</h1>
+      {intro && <p className="prose-lead mt-5 !text-xl">{intro}</p>}
 
       {data.sections?.length > 0 ? (
         data.sections.map((s) => <Section key={s.heading} section={s} />)
       ) : (
-        <p className="mt-8 text-gray-500 italic">The full guide is coming soon.</p>
+        <p className="mt-10 italic text-muted">The full guide is coming soon.</p>
       )}
 
       {data.video?.url && <Video video={data.video} />}
 
       {data.related?.length > 0 && (
-        <section className="mt-12">
-          <h2 className="text-2xl font-bold mb-4">🌿 Keep Learning</h2>
-          <div className="flex flex-wrap gap-3">
+        <section className="mt-14">
+          <h2 className="text-2xl">Keep learning</h2>
+          <div className="mt-5 flex flex-wrap gap-3">
             {data.related.map((r) => (
-              <Link
-                key={r.slug}
-                to={`${backTo}/${r.slug}`}
-                className="bg-white border border-green-200 hover:border-green-500 rounded-lg px-4 py-2 text-green-800 font-medium transition"
-              >
-                {r.label}
+              <Link key={r.slug} to={`${backTo}/${r.slug}`} className="btn btn-outline">
+                {r.label} <ArrowRight size={15} aria-hidden="true" />
               </Link>
             ))}
           </div>

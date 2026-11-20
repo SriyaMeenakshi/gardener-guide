@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Search, SearchX, X } from "lucide-react";
 import useApi from "../hooks/useApi";
 import { PlantCard } from "../components/Cards";
-import { PageHeader, Loading, ErrorMessage } from "../components/Status";
+import { PageHeader, CardSkeletons, ErrorMessage } from "../components/Status";
+import { CATEGORY, LEVEL, SUN, WATER } from "../lib/labels";
 
-const FILTERS = {
-  category: ["flowering", "medicinal", "kitchen", "fruit"],
-  sunlight: ["low", "partial", "full"],
-  water: ["low", "moderate", "high"],
-  difficulty: ["easy", "medium", "hard"],
-};
-
-const select = "bg-white border border-gray-300 rounded-lg px-3 py-2 capitalize";
+// Filters live in the URL, so a filtered view can be bookmarked or shared.
+const FILTERS = [
+  { key: "category", placeholder: "All types", options: CATEGORY },
+  { key: "sunlight", placeholder: "Any light", options: SUN },
+  { key: "water", placeholder: "Any water", options: WATER },
+  { key: "difficulty", placeholder: "Any level", options: LEVEL },
+];
 
 export default function Plants() {
-  // Filters live in the URL, so a filtered view can be bookmarked or shared.
   const [params, setParams] = useSearchParams();
   const [searchText, setSearchText] = useState(params.get("search") || "");
 
@@ -45,80 +45,89 @@ export default function Plants() {
   query.set("limit", "12");
   const { data, loading, error } = useApi(`/plants?${query}`);
   const page = Number(params.get("page")) || 1;
+  const filtered = [...params.keys()].some((k) => k !== "page");
 
   return (
     <>
-      <PageHeader title="🌱 Plants for Your Home Garden" subtitle="Find the perfect plants for your mini garden." />
+      <PageHeader
+        eyebrow="Plant guides"
+        title="Find the right plant for your garden"
+        subtitle="Search by name, or narrow it down by light, water and how easy a plant is to grow."
+      />
 
-      <div className="flex flex-wrap gap-3 mb-8 justify-center">
-        <input
-          type="search"
-          value={searchText}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search plants…"
-          aria-label="Search plants"
-          className="bg-white border border-gray-300 rounded-lg px-3 py-2 w-56"
-        />
-        {Object.entries(FILTERS).map(([key, options]) => (
-          <select
-            key={key}
-            aria-label={key}
-            value={params.get(key) || ""}
-            onChange={(e) => setParam(key, e.target.value)}
-            className={select}
-          >
-            <option value="">Any {key}</option>
-            {options.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-          </select>
-        ))}
-        {[...params.keys()].length > 0 && (
-          <button
-            onClick={() => {
-              setSearchText("");
-              setParams({}, { replace: true });
-            }}
-            className="px-3 py-2 text-green-700 underline"
-          >
-            Clear
-          </button>
-        )}
+      <div className="card sticky top-[4.75rem] z-30 mb-8 p-3 md:p-4">
+        <div className="grid gap-3 md:grid-cols-[minmax(0,1.5fr)_repeat(4,minmax(0,1fr))_auto]">
+          <div className="relative">
+            <Search size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" aria-hidden="true" />
+            <input
+              type="search"
+              value={searchText}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder="Search plants…"
+              aria-label="Search plants"
+              className="input !pl-10"
+            />
+          </div>
+          {FILTERS.map(({ key, placeholder, options }) => (
+            <select key={key} aria-label={key} value={params.get(key) || ""} onChange={(e) => setParam(key, e.target.value)} className="input">
+              <option value="">{placeholder}</option>
+              {Object.entries(options).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          ))}
+          {filtered && (
+            <button
+              onClick={() => {
+                setSearchText("");
+                setParams({}, { replace: true });
+              }}
+              className="btn btn-outline"
+            >
+              <X size={15} aria-hidden="true" /> Clear
+            </button>
+          )}
+        </div>
       </div>
 
-      {loading && <Loading />}
+      {loading && !data && <CardSkeletons count={6} />}
       {error && <ErrorMessage error={error} />}
-      {data && data.plants.length === 0 && <p className="text-center text-gray-600 py-16">No plants match those filters.</p>}
+
+      {data && data.plants.length === 0 && (
+        <div className="py-20 text-center">
+          <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-leaf-100 text-leaf-700">
+            <SearchX size={26} aria-hidden="true" />
+          </div>
+          <h2 className="text-2xl">No plants match those filters</h2>
+          <p className="mt-2 text-muted">Try removing a filter or searching for something else.</p>
+        </div>
+      )}
+
       {data && data.plants.length > 0 && (
         <>
-          <p className="text-sm text-gray-600 mb-4">{data.total} plants</p>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <p className="mb-5 text-sm text-muted">
+            {data.total} {data.total === 1 ? "plant" : "plants"}
+          </p>
+          <div className={`grid gap-6 sm:grid-cols-2 lg:grid-cols-3 ${loading ? "opacity-60 transition" : ""}`}>
             {data.plants.map((p) => (
               <PlantCard key={p.slug} plant={p} />
             ))}
           </div>
+
           {data.pages > 1 && (
-            <div className="flex justify-center items-center gap-4 mt-10">
-              <button
-                disabled={page <= 1}
-                onClick={() => setParam("page", String(page - 1))}
-                className="px-4 py-2 rounded-lg bg-green-600 text-white disabled:opacity-40"
-              >
-                ← Prev
+            <nav className="mt-12 flex items-center justify-center gap-4" aria-label="Pagination">
+              <button disabled={page <= 1} onClick={() => setParam("page", String(page - 1))} className="btn btn-outline">
+                <ChevronLeft size={16} aria-hidden="true" /> Previous
               </button>
-              <span>
+              <span className="text-sm text-muted">
                 Page {page} of {data.pages}
               </span>
-              <button
-                disabled={page >= data.pages}
-                onClick={() => setParam("page", String(page + 1))}
-                className="px-4 py-2 rounded-lg bg-green-600 text-white disabled:opacity-40"
-              >
-                Next →
+              <button disabled={page >= data.pages} onClick={() => setParam("page", String(page + 1))} className="btn btn-outline">
+                Next <ChevronRight size={16} aria-hidden="true" />
               </button>
-            </div>
+            </nav>
           )}
         </>
       )}

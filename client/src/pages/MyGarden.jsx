@@ -1,19 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { AlertCircle, Check, Droplets, Pencil, Plus, Sprout, Trash2 } from "lucide-react";
 import { apiDelete, apiGet, apiPost, apiPut } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import { dueInfo, lastWateredLabel } from "../lib/garden";
 import { PageHeader, Loading, ErrorMessage } from "../components/Status";
 
+// Watering status badge: colour + icon, never colour alone.
 const TONES = {
-  overdue: "bg-red-100 text-red-800 border-red-300",
-  today: "bg-amber-100 text-amber-800 border-amber-300",
-  soon: "bg-sky-100 text-sky-800 border-sky-300",
-  ok: "bg-green-100 text-green-800 border-green-300",
+  overdue: { cls: "bg-clay-50 text-clay-700", icon: AlertCircle },
+  today: { cls: "bg-sun-100 text-sun-700", icon: Droplets },
+  soon: { cls: "bg-water-100 text-water-700", icon: Droplets },
+  ok: { cls: "bg-leaf-100 text-leaf-800", icon: Check },
 };
 
 const byDue = (a, b) => new Date(a.nextWateringAt) - new Date(b.nextWateringAt);
-const inputClass = "w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500";
 
 function EditForm({ entry, onSave, onCancel, saving }) {
   const [nickname, setNickname] = useState(entry.nickname);
@@ -26,24 +27,24 @@ function EditForm({ entry, onSave, onCancel, saving }) {
   };
 
   return (
-    <form onSubmit={submit} className="mt-4 space-y-3 border-t pt-4">
+    <form onSubmit={submit} className="mt-4 space-y-3 border-t border-leaf-100 pt-4">
       <div>
-        <label htmlFor={`nick-${entry._id}`} className="block text-sm font-medium mb-1">Nickname</label>
-        <input id={`nick-${entry._id}`} value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={60} placeholder={entry.plant.name} className={inputClass} />
+        <label htmlFor={`nick-${entry._id}`} className="label">Nickname</label>
+        <input id={`nick-${entry._id}`} value={nickname} onChange={(e) => setNickname(e.target.value)} maxLength={60} placeholder={entry.plant.name} className="input" />
       </div>
       <div>
-        <label htmlFor={`days-${entry._id}`} className="block text-sm font-medium mb-1">Water every (days)</label>
-        <input id={`days-${entry._id}`} type="number" min={1} max={60} step={1} required value={days} onChange={(e) => setDays(e.target.value)} className={inputClass} />
+        <label htmlFor={`days-${entry._id}`} className="label">Water every (days)</label>
+        <input id={`days-${entry._id}`} type="number" min={1} max={60} step={1} required value={days} onChange={(e) => setDays(e.target.value)} className="input" />
       </div>
       <div>
-        <label htmlFor={`notes-${entry._id}`} className="block text-sm font-medium mb-1">Notes</label>
-        <textarea id={`notes-${entry._id}`} value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={500} rows={3} className={inputClass} />
+        <label htmlFor={`notes-${entry._id}`} className="label">Notes</label>
+        <textarea id={`notes-${entry._id}`} value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={500} rows={3} className="input" />
       </div>
-      <div className="flex gap-3">
-        <button type="submit" disabled={saving} className="bg-green-600 hover:bg-green-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg">
+      <div className="flex gap-2">
+        <button type="submit" disabled={saving} className="btn btn-primary">
           {saving ? "Saving…" : "Save"}
         </button>
-        <button type="button" onClick={onCancel} className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50">
+        <button type="button" onClick={onCancel} className="btn btn-outline">
           Cancel
         </button>
       </div>
@@ -54,31 +55,32 @@ function EditForm({ entry, onSave, onCancel, saving }) {
 function GardenCard({ entry, busy, error, onWater, onSave, onRemove }) {
   const [editing, setEditing] = useState(false);
   const due = dueInfo(entry.nextWateringAt);
+  const tone = TONES[due.tone];
   const title = entry.nickname || entry.plant.name;
 
   return (
-    <li className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
-      <img src={entry.plant.image} alt={entry.plant.name} loading="lazy" className="w-full h-40 object-cover" />
-      <div className="p-5 flex flex-col grow">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h2 className="text-xl font-bold text-green-800">{title}</h2>
-            {entry.nickname && (
-              <Link to={`/plants/${entry.plant.slug}`} className="text-sm text-gray-500 underline">
-                {entry.plant.name}
-              </Link>
-            )}
-          </div>
-          <span className={`shrink-0 text-sm font-semibold border rounded-full px-3 py-1 ${TONES[due.tone]}`}>{due.label}</span>
-        </div>
+    <li className="card flex flex-col overflow-hidden">
+      <div className="relative">
+        <img src={entry.plant.image} alt={entry.plant.name} loading="lazy" className="h-44 w-full object-cover" />
+        <span className={`absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm ${tone.cls}`}>
+          <tone.icon size={14} aria-hidden="true" /> {due.label}
+        </span>
+      </div>
+      <div className="flex grow flex-col p-5">
+        <h2 className="text-xl">{title}</h2>
+        {entry.nickname && (
+          <Link to={`/plants/${entry.plant.slug}`} className="text-sm text-leaf-700 underline underline-offset-2">
+            {entry.plant.name}
+          </Link>
+        )}
 
-        <p className="mt-3 text-sm text-gray-600">
+        <p className="mt-3 text-sm text-muted">
           {lastWateredLabel(entry.lastWateredAt)} · every {entry.wateringEveryDays} {entry.wateringEveryDays === 1 ? "day" : "days"}
         </p>
-        {entry.notes && <p className="mt-2 text-sm text-gray-700 whitespace-pre-line">{entry.notes}</p>}
+        {entry.notes && <p className="mt-2 whitespace-pre-line rounded-xl bg-leaf-50 p-3 text-sm text-ink/85">{entry.notes}</p>}
 
         {error && (
-          <p role="alert" className="mt-3 text-sm text-red-700">
+          <p role="alert" className="mt-3 text-sm text-clay-700">
             {error}
           </p>
         )}
@@ -93,24 +95,29 @@ function GardenCard({ entry, busy, error, onWater, onSave, onRemove }) {
             }}
           />
         ) : (
-          <div className="mt-auto pt-4 flex flex-wrap gap-2">
-            <button
-              onClick={() => onWater(entry._id)}
-              disabled={busy}
-              className="bg-sky-600 hover:bg-sky-700 disabled:opacity-60 text-white font-semibold px-4 py-2 rounded-lg"
-            >
-              💧 Mark watered
+          <div className="mt-auto flex flex-wrap items-center gap-2 pt-5">
+            <button onClick={() => onWater(entry._id)} disabled={busy} className="btn btn-primary !py-2">
+              <Droplets size={16} aria-hidden="true" /> Mark watered
             </button>
-            <button onClick={() => setEditing(true)} className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50">
-              Edit
+            <button onClick={() => setEditing(true)} className="btn btn-outline !py-2">
+              <Pencil size={15} aria-hidden="true" /> Edit
             </button>
-            <button onClick={() => onRemove(entry)} disabled={busy} className="px-4 py-2 rounded-lg text-red-700 hover:bg-red-50 disabled:opacity-60">
-              Remove
+            <button onClick={() => onRemove(entry)} disabled={busy} className="btn btn-danger !py-2 sm:ml-auto" aria-label={`Remove ${title}`}>
+              <Trash2 size={15} aria-hidden="true" /> Remove
             </button>
           </div>
         )}
       </div>
     </li>
+  );
+}
+
+function Stat({ label, value, highlight }) {
+  return (
+    <div className={`card flex-1 px-5 py-4 ${highlight ? "!border-clay-100 !bg-clay-50" : ""}`}>
+      <div className={`font-display text-3xl font-semibold ${highlight ? "text-clay-700" : "text-leaf-800"}`}>{value}</div>
+      <div className="text-sm text-muted">{label}</div>
+    </div>
   );
 }
 
@@ -170,7 +177,8 @@ export default function MyGarden() {
   return (
     <>
       <PageHeader
-        title="🪴 My Garden"
+        eyebrow="My Garden"
+        title="Your garden"
         subtitle={
           items.length === 0
             ? "You haven't added any plants yet."
@@ -181,25 +189,28 @@ export default function MyGarden() {
       />
 
       {items.length === 0 ? (
-        <div className="text-center py-10">
-          <Link to="/plants" className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg">
-            Browse plants to add
+        <div className="mx-auto max-w-md rounded-3xl border-2 border-dashed border-leaf-200 bg-leaf-50/60 px-6 py-14 text-center">
+          <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-full bg-leaf-100 text-leaf-700">
+            <Sprout size={28} aria-hidden="true" />
+          </div>
+          <h2 className="text-2xl">Start your garden</h2>
+          <p className="mt-2 text-muted">Add the plants you grow and we'll show you when each one needs water.</p>
+          <Link to="/plants" className="btn btn-primary mt-6">
+            <Plus size={16} aria-hidden="true" /> Browse plants
           </Link>
         </div>
       ) : (
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((entry) => (
-            <GardenCard
-              key={entry._id}
-              entry={entry}
-              busy={busyId === entry._id}
-              error={errors[entry._id]}
-              onWater={water}
-              onSave={save}
-              onRemove={remove}
-            />
-          ))}
-        </ul>
+        <>
+          <div className="mx-auto mb-8 flex max-w-md gap-4">
+            <Stat label={items.length === 1 ? "Plant" : "Plants"} value={items.length} />
+            <Stat label="Need water" value={needWater} highlight={needWater > 0} />
+          </div>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {items.map((entry) => (
+              <GardenCard key={entry._id} entry={entry} busy={busyId === entry._id} error={errors[entry._id]} onWater={water} onSave={save} onRemove={remove} />
+            ))}
+          </ul>
+        </>
       )}
     </>
   );
