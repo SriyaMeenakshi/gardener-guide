@@ -4,7 +4,7 @@
 
 ### Discover • Learn • Grow
 
-*A modern gardening companion for home gardeners and nature enthusiasts.*
+*A modern gardening companion for home gardeners and nature enthusiasts or hobbyist gardeners*
 
 [![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
@@ -34,7 +34,7 @@ The project combines my passion for technology with my love for nature and aims 
 
 ## 🌸 Plants for Your Home Garden
 
-Explore different categories of plants including:
+Explore types of plants including:
 
 - 🌹 Flowering Plants
 - 🌿 Medicinal Plants
@@ -163,7 +163,6 @@ Each article contains:
 | 🔷 TypeScript | Type Safety |
 | 🎨 Tailwind CSS | Styling & Responsive Design |
 | 🟩 Node.js | Development Runtime |
-| 🔀 Git | Version Control |
 | 🐙 GitHub | Source Code Hosting |
 | ▲ Vercel | Deployment |
 
@@ -255,7 +254,6 @@ Some ideas planned for future versions include:
 - 🌍 More Plant Guides
 - 🌼 Additional Gardening Methods
 - 🐝 Pollinator Friendly Garden Guide
-- 📱 Progressive Web App (PWA)
 - ♿ Accessibility Improvements
 
 ---
@@ -361,7 +359,7 @@ https://www.linkedin.com/in/sriya-meenakshi-chalamalasetty
 
 ### 🌼 Inspired by a childhood spent in the garden.
 
-Every plant tells a story, and every project is a seed that grows with patience, curiosity, and consistency.
+
 
 **Built with 💚 using Next.js, React, TypeScript, and Tailwind CSS.**
 
