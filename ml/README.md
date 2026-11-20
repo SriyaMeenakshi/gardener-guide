@@ -33,7 +33,7 @@ Evaluated **once**, on a held-out test set the model never trained on or was tun
 Full per-class numbers: [`artifacts/per_class.csv`](artifacts/per_class.csv). Confusion matrix:
 [`artifacts/confusion_matrix.png`](artifacts/confusion_matrix.png). Everything: [`artifacts/metrics.json`](artifacts/metrics.json).
 
-**Saying "not sure" is a feature.** The app only gives a diagnosis when the model's confidence is at least **0.88**.
+**Saying "not sure" is a feature.** The app only gives a diagnosis when the model's confidence is at least **0.90**.
 
 | Confidence threshold | Share of test photos answered | Accuracy of those answers |
 |---|---|---|
@@ -52,10 +52,13 @@ Please read this part before quoting 98 %.
    photos (messy background, shadows, partial leaves). We did not have a labelled set of garden photos, so **real-world
    accuracy is unknown and expected to be lower.** The app says this on the page.
 2. **It always answers with one of its 38 classes.** There is no "this is not a leaf" or "this is a rose" class.
-   We measured what happens: on **45 photos from this website of 10 unsupported plants**, the average top confidence
-   was low (0.26-0.60) and **none reached 0.9**. But the original threshold of 0.5 would still have let 50-80 % of
-   mint, aloe, coriander and guava photos through with a wrong diagnosis, which is why the threshold is 0.88 (see below).
-   That probe is small and informal; it is a warning sign, not a guarantee.
+   We measured what happens on **45 photos from this website of 10 unsupported plants**. The average top confidence
+   was low (0.26-0.60). At the app's threshold of 0.90, **0 of 45 get a diagnosis** when run through the server's own
+   image pipeline (1 of 45 in the Python pipeline: a photo sitting right at the line). It is not a comfortable margin:
+   a peppermint photo scored 0.895 ("Strawberry leaf scorch") and an aloe photo 0.893, just under the line. At the
+   threshold of 0.5 that first looked reasonable, 50-80 % of mint, aloe, coriander and guava photos would have been
+   diagnosed wrongly. The probe is small and informal; it is a warning sign, not a guarantee. The structural fix is an
+   explicit "not a leaf / unknown plant" class, not a higher threshold.
 3. **Six PlantVillage test photos were also run through the full app** (browser upload -> server -> advice) as a
    smoke test: 4 correct and confident, 2 correct but below the confidence bar (so shown as "not sure"). That is a
    check that the plumbing works, not an accuracy estimate.
@@ -83,17 +86,22 @@ physical leaf is in both training and test.
 
 ### What was decided on which data
 - Head type and hyper-parameters: chosen on **validation** (MLP with 512 hidden units; macro-F1 0.978 vs 0.967 for a linear head).
-- Confidence threshold: chosen on **validation** ("smallest threshold where answered photos are >= 99.9 % correct").
-  The first rule used 98 %, which is already met at the lowest threshold (0.5); the unsupported-plant probe above showed
-  that was too lax, so the target was tightened to 99.9 %, giving 0.88. This was a judgement made after looking at that
-  probe (which is separate from the test set), and is recorded in `evaluate.py`.
+- Confidence threshold: the rule is "smallest threshold where answered **validation** photos are >= 99.9 % correct",
+  which gives 0.88. The first version of the rule used 98 %, already met at the lowest threshold (0.5); the
+  unsupported-plant probe showed that was too lax, so the target was tightened. Then the same probe, run through the
+  server's pipeline, showed 2 of 45 unsupported photos still passing at 0.88 (both at 0.89), so the value is **rounded up to
+  the next 0.05, giving 0.90**. Both adjustments were judgement calls made after looking at that probe (which is
+  separate from the test set), and both are recorded in `evaluate.py` and `metrics.json`.
 - Test set: used for the final report only.
 
 ### Making sure the server matches training
 Training preprocesses with Python/PIL; the server preprocesses with `sharp`. Different resampling code gives slightly
 different pixels, so the server's settings were chosen by measurement (`server/scripts/tune-resize.mjs`): bilinear
-with shrink-on-load off agrees with Python to within 0.026 in probability on 12 photos and always picks the same class.
-The first guess (Lanczos) was worse and changed one answer. A test in `server/test/local-detector.test.js` guards this.
+with shrink-on-load off was the best of 12 combinations (the first guess, Lanczos, was among the worst).
+On 12 site photos the probabilities differ by at most 0.049 (mean 0.01), clear winners are always the same class, and the
+"answer or not sure" decision always agrees. One photo flips its top-1 between two classes that are tied at about 25 %
+(0.255 vs 0.253); that is a coin flip, not an error. Differences are largest on flat, low-confidence photos.
+A test in `server/test/local-detector.test.js` guards all of this.
 
 ## Reproduce it
 

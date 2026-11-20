@@ -57,6 +57,6 @@
   ],
   "inputSize": 224,
   "preprocessing": "RGB, centre-crop to a square, resize to 224x224 (bilinear), float32 in [0,1], NCHW. Normalisation is inside the model.",
-  "recommendedMinConfidence": 0.88,
+  "recommendedMinConfidence": 0.9,
   "testAccuracy": 0.9827
 }

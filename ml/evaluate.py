@@ -8,6 +8,7 @@ Reports:
 Usage:  python evaluate.py
 """
 import csv
+import math
 
 import matplotlib
 
@@ -17,7 +18,7 @@ import numpy as np
 import torch
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_recall_fscore_support
 
-from common import ARTIFACTS, CACHE, REPO_ML, ensure_dirs, write_json
+from common import ARTIFACTS, CACHE, REPO_ML, SERVER_MODELS, ensure_dirs, read_json, write_json
 from extract_features import load_split
 from features import backbone, load_image_tensor, normalise
 from head import Head
@@ -26,7 +27,7 @@ THRESHOLDS = [0.5, 0.7, 0.8, 0.9, 0.95, 0.99]
 # Plants in the website that the PlantVillage crops do not include (so any disease label is wrong by construction)
 OUT_OF_SCOPE = ["rose", "hibiscus", "marigold", "tulasi", "mint", "aloevera", "coriander", "lemon", "guava", "papaya"]
 RELATED = ["tomato", "chilli"]  # tomato is a trained crop; chilli is a close relative of bell pepper
-PHOTOS = REPO_ML.parent / "public" / "plants"
+PHOTOS = REPO_ML.parent / "client" / "public" / "plants"
 
 
 def load_head():
@@ -59,9 +60,9 @@ def choose_threshold(p_val, y_val, target=0.999):
 def photos_for(slugs):
     out = {}
     for slug in slugs:
-        files = set(PHOTOS.glob(f"{slug}.*"))  # the card photo, e.g. public/plants/rose.jpg
+        files = set(PHOTOS.glob(f"{slug}.*"))  # the card photo, e.g. client/public/plants/rose.jpg
         if (PHOTOS / slug).is_dir():
-            files |= set((PHOTOS / slug).rglob("*"))  # and the article photos in public/plants/rose/
+            files |= set((PHOTOS / slug).rglob("*"))  # and the article photos in client/public/plants/rose/
         out[slug] = sorted(p for p in files if p.suffix.lower() in (".jpg", ".jpeg", ".png"))
     return out
 
@@ -121,8 +122,12 @@ def main():
 
     conf, correct = p_te.max(1), pred == yte
     by_threshold = {str(t): {"answered": round(float((conf >= t).mean()), 4), "accuracy_when_answered": round(float(correct[conf >= t].mean()), 4) if (conf >= t).any() else None} for t in THRESHOLDS}
-    threshold = choose_threshold(p_va, yva)
-    print(f"confidence threshold chosen on VALIDATION data: {threshold}")
+    rule_threshold = choose_threshold(p_va, yva)
+    # Safety margin: round UP to the next 0.05. With the plain rule (0.88) the unsupported-plant probe, run through the
+    # server's own image pipeline, still let 2 of 45 photos through with a wrong diagnosis (both at 0.89). Rounding up
+    # is a simple, explainable margin, and 0.9 is a row of the measured test trade-off table below.
+    threshold = round(math.ceil(rule_threshold * 20 - 1e-9) / 20, 2)
+    print(f"confidence threshold: {rule_threshold} from the validation rule, {threshold} after the safety margin")
 
     net = backbone()
     scope = probe(head, net, classes, photos_for(OUT_OF_SCOPE))
@@ -139,10 +144,18 @@ def main():
         "classes": len(classes),
         "test": {"images": int(len(yte)), "accuracy": round(float(acc), 4), "macro_f1": round(float(macro_f1), 4), "top_confusions": [{"count": c, "true": a, "predicted": b} for c, a, b in top_confusions]},
         "confidence_tradeoff_on_test": by_threshold,
+        "threshold_from_validation_rule": rule_threshold,
         "recommended_min_confidence": threshold,
         "out_of_scope_probe": {"note": "photos from this website of plants the model was never trained on; ANY disease label is wrong by construction", "images": n_scope, "share_labelled_with_confidence_ge_0.9": wrongly_sure, "per_plant": scope},
         "related_crops_probe": related,
     })
+    labels_path = SERVER_MODELS / "labels.json"
+    if labels_path.exists():  # the exported model's settings must always match the evaluation that justified them
+        labels = read_json(labels_path)
+        labels["recommendedMinConfidence"] = threshold
+        labels["testAccuracy"] = round(float(acc), 4)
+        write_json(labels_path, labels)
+        print(f"updated {labels_path.name}: recommendedMinConfidence={threshold}")
     print("wrote metrics.json, per_class.csv, confusion_matrix.png")
 
 

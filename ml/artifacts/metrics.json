@@ -81,15 +81,16 @@
       "accuracy_when_answered": 1.0
     }
   },
-  "recommended_min_confidence": 0.88,
+  "threshold_from_validation_rule": 0.88,
+  "recommended_min_confidence": 0.9,
   "out_of_scope_probe": {
     "note": "photos from this website of plants the model was never trained on; ANY disease label is wrong by construction",
     "images": 45,
-    "share_labelled_with_confidence_ge_0.9": 0.0,
+    "share_labelled_with_confidence_ge_0.9": 0.022,
     "per_plant": {
       "rose": {
         "images": 6,
-        "mean_top_confidence": 0.261,
+        "mean_top_confidence": 0.273,
         "share_confidence_ge_0.5": 0.0,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
@@ -110,7 +111,7 @@
       },
       "hibiscus": {
         "images": 5,
-        "mean_top_confidence": 0.281,
+        "mean_top_confidence": 0.284,
         "share_confidence_ge_0.5": 0.0,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
@@ -131,8 +132,8 @@
       },
       "marigold": {
         "images": 5,
-        "mean_top_confidence": 0.3,
-        "share_confidence_ge_0.5": 0.0,
+        "mean_top_confidence": 0.307,
+        "share_confidence_ge_0.5": 0.2,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
         "most_common_labels": [
@@ -152,8 +153,8 @@
       },
       "tulasi": {
         "images": 6,
-        "mean_top_confidence": 0.339,
-        "share_confidence_ge_0.5": 0.167,
+        "mean_top_confidence": 0.347,
+        "share_confidence_ge_0.5": 0.333,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
         "most_common_labels": [
@@ -173,31 +174,31 @@
       },
       "mint": {
         "images": 5,
-        "mean_top_confidence": 0.535,
+        "mean_top_confidence": 0.539,
         "share_confidence_ge_0.5": 0.6,
         "share_confidence_ge_0.8": 0.4,
         "share_confidence_ge_0.9": 0.0,
         "most_common_labels": [
           [
             "Strawberry___Leaf_scorch",
-            2
+            3
           ],
           [
             "Corn_(maize)___Northern_Leaf_Blight",
             1
           ],
           [
-            "Cherry_(including_sour)___Powdery_mildew",
+            "Tomato___Late_blight",
             1
           ]
         ]
       },
       "aloevera": {
         "images": 5,
-        "mean_top_confidence": 0.597,
-        "share_confidence_ge_0.5": 0.8,
+        "mean_top_confidence": 0.595,
+        "share_confidence_ge_0.5": 0.6,
         "share_confidence_ge_0.8": 0.2,
-        "share_confidence_ge_0.9": 0.0,
+        "share_confidence_ge_0.9": 0.2,
         "most_common_labels": [
           [
             "Corn_(maize)___healthy",
@@ -215,20 +216,24 @@
       },
       "coriander": {
         "images": 2,
-        "mean_top_confidence": 0.424,
+        "mean_top_confidence": 0.426,
         "share_confidence_ge_0.5": 0.5,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
         "most_common_labels": [
           [
+            "Corn_(maize)___healthy",
+            1
+          ],
+          [
             "Strawberry___Leaf_scorch",
-            2
+            1
           ]
         ]
       },
       "lemon": {
         "images": 5,
-        "mean_top_confidence": 0.308,
+        "mean_top_confidence": 0.302,
         "share_confidence_ge_0.5": 0.2,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
@@ -249,7 +254,7 @@
       },
       "guava": {
         "images": 4,
-        "mean_top_confidence": 0.527,
+        "mean_top_confidence": 0.531,
         "share_confidence_ge_0.5": 0.5,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
@@ -266,18 +271,14 @@
       },
       "papaya": {
         "images": 2,
-        "mean_top_confidence": 0.275,
+        "mean_top_confidence": 0.267,
         "share_confidence_ge_0.5": 0.0,
         "share_confidence_ge_0.8": 0.0,
         "share_confidence_ge_0.9": 0.0,
         "most_common_labels": [
           [
             "Strawberry___Leaf_scorch",
-            1
-          ],
-          [
-            "Orange___Haunglongbing_(Citrus_greening)",
-            1
+            2
           ]
         ]
       }
@@ -286,7 +287,7 @@
   "related_crops_probe": {
     "tomato": {
       "images": 6,
-      "mean_top_confidence": 0.421,
+      "mean_top_confidence": 0.416,
       "share_confidence_ge_0.5": 0.333,
       "share_confidence_ge_0.8": 0.0,
       "share_confidence_ge_0.9": 0.0,
