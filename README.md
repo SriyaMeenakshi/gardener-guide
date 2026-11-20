@@ -4,17 +4,19 @@
 
 ### Discover • Learn • Grow
 
-*A modern gardening companion for home gardeners and nature enthusiasts or hobbyist gardeners*
+*A full-stack gardening companion for home gardeners and nature enthusiasts: plant guides, a personal garden tracker, and a plant-health checker.*
 
-[![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express](https://img.shields.io/badge/Express-000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
-### 🌐 Live Website
+### 🌐 Live
 
-**https://gardener-guide.vercel.app/**
+**Website:** https://gardener-guide-2hqt.vercel.app/  ·  **API:** https://gardener-guide-api.onrender.com/api/health
+
+*The API runs on a free tier that sleeps when idle: the first request after a quiet spell can take up to a minute.*
 
 </div>
 
@@ -22,194 +24,132 @@
 
 # 🌱 About the Project
 
-**Gardener Guide** is a modern gardening companion built using **Next.js**, **React**, **TypeScript**, and **Tailwind CSS**.
+**Gardener Guide** started as a static website I built over a summer holiday (version 1, Next.js). **Version 2** turns it into a full **MERN-stack application**: the content now lives in a database behind a REST API, visitors can create accounts and keep their own garden, and a plant-health checker looks at a leaf photo and suggests what might be wrong.
 
-It is designed to make gardening knowledge simple, accessible, and enjoyable for everyone. Whether you're growing a single Tulasi plant on your balcony or creating a flourishing home garden, Gardener Guide brings together plant guides, care tips, DIY projects, and gardening methods into one easy-to-use platform.
+Whether you're growing a single Tulasi plant on your balcony or a whole home garden, it brings plant guides, care tips, DIY projects and gardening methods together in one place.
 
-The project combines my passion for technology with my love for nature and aims to encourage more people to enjoy gardening through an interactive web experience.
+> Version 1 is preserved in this repository under the git tag [`v1-final`](https://github.com/SriyaMeenakshi/gardener-guide/tree/v1-final).
 
 ---
 
 # ✨ Features
 
-## 🌸 Plants for Your Home Garden
+### 🌸 Plant guides
+12 plants across flowering, medicinal, kitchen-garden and fruit categories. **Search** by name and **filter** by sunlight, water need and difficulty. Each plant has varieties, care requirements, common problems with fixes, and a tutorial video.
 
-Explore types of plants including:
+### 💧 Care guides · 🛠 DIY projects · 🌱 Gardening methods
+Six care guides (watering, sunlight, soil, fertilizer, pruning, pest control), six DIY projects and six gardening methods, all served from the database through three reusable page templates.
 
-- 🌹 Flowering Plants
-- 🌿 Medicinal Plants
-- 🥬 Kitchen Garden Plants
-- 🍋 Fruit Plants
+### 🪴 My Garden *(login required)*
+Save plants to your own garden, give them nicknames, set how often each needs water, and mark them watered. Plants are ordered by what needs water first, with clear "Water today / Overdue by 2 days" badges.
 
-Each plant page includes:
+### 🩺 Plant Doctor *(login required)*
+Upload a photo of a leaf and get a suggestion with symptoms, what to do and how to prevent it. It runs on **a model I trained myself** (see below), inside the server: no paid API, and the photo is analysed and then discarded. It is honest about its limits: it only knows 14 crops, says "not sure" when it isn't confident, and says so on the page.
 
-- Beautiful images
-- Plant information
-- Growing requirements
-- Care instructions
-- Common problems & solutions
-- Recommended YouTube tutorials
+### 🔐 Accounts
+Register, log in, stay signed in across visits. Your garden and your check history are private to you.
 
 ---
 
-## 💧 Plant Care Guides
+# 🧠 The disease model
 
-Learn essential gardening skills through dedicated guides covering:
+| | |
+|---|---|
+| Data | [PlantVillage](https://github.com/spMohanty/PlantVillage-Dataset): 54,305 leaf photos, 38 classes, 14 crops |
+| Model | MobileNetV2 (frozen, ImageNet-pretrained) + a trained classifier head; 11 MB, runs in Node with ONNX Runtime |
+| Result | **98.3 % accuracy** on 9,846 held-out photos (macro-F1 0.979), no leaf shared with training |
+| Honest caveat | PlantVillage photos are lab shots. Real garden photos will score lower, and of this site's own plants only tomato is covered |
 
-- Watering
-- Sunlight
-- Soil
-- Fertilizers
-- Pruning
-- Pest Control
-
-Each guide includes:
-
-- Easy-to-understand articles
-- Visual illustrations
-- Practical gardening tips
-- Common mistakes to avoid
-- Video tutorials for better understanding
+I found that even the dataset's official train/test split shares some leaves, and removed those images from the test set. Full method, per-class results, the confidence trade-off, the unsupported-plant probe and every limitation are in **[ml/README.md](ml/README.md)**.
 
 ---
 
-## 🛠 DIY Garden Crafts
+# 🏗 Architecture
 
-Discover eco-friendly DIY ideas such as:
+```
+ Browser (React + Vite + Tailwind)            Vercel
+        │   HTTPS / JSON (JWT in Authorization header)
+        ▼
+ Express REST API  ──►  MongoDB Atlas (Mongoose)         Render
+   ├─ auth · garden · diagnose · content routes
+   ├─ validation (zod) · rate limits · helmet · CORS
+   └─ Plant Doctor ──► sharp (resize) ──► ONNX Runtime ──► MobileNetV2 + head
+                              └─ advice comes from the Disease knowledge base in MongoDB
+```
 
-- 🐦 Bird Houses
-- 💧 Water Bowls for Birds
-- 🌾 Bird Feeders
-- 🎍 Balcony Decoration Ideas
-- 💦 DIY Drip Irrigation
-- 🌳 Garden Swings
+```text
+gardener-guide
+├── client/                React app (Vite, React Router, Tailwind)
+│   └── src/ pages · components · context (auth) · api · lib
+├── server/                Express API
+│   ├── src/ models · controllers · routes · middleware · services/detector · seed
+│   ├── models/            the exported ONNX model + labels
+│   ├── scripts/           db:check, image optimiser, resize tuning
+│   └── test/              58 automated tests
+├── ml/                    reproducible training pipeline for the disease model
+├── docs/                  Atlas + deployment guides, technical plan
+└── render.yaml            Render blueprint for the API
+```
 
-Every DIY project contains:
+## API overview
 
-- Tutorial thumbnail
-- Direct YouTube tutorial
-- Simple explanation
+| Area | Endpoints |
+|---|---|
+| Content (public) | `GET /api/plants` (search, filters, pagination) · `/plants/:slug` · `/care` · `/care/:slug` · `/methods` · `/methods/:slug` · `/diy` |
+| Auth | `POST /api/auth/register` · `POST /api/auth/login` · `GET /api/auth/me` |
+| My Garden 🔒 | `GET/POST /api/garden` · `PUT/DELETE /api/garden/:id` · `POST /api/garden/:id/water` |
+| Plant Doctor 🔒 | `POST /api/diagnose` (multipart photo) · `GET /api/diagnose/history` · `GET /api/diagnose/info` · `DELETE /api/diagnose/:id` |
 
----
+🔒 = needs a login. Every garden and history query is scoped to the signed-in user.
 
-## 🌱 Gardening Methods
-
-Learn different gardening techniques including:
-
-- Horticulture
-- Terrace Gardening
-- Drip Irrigation
-- Organic Gardening
-- Hydroponics
-- Vertical Gardening
-
-Each article contains:
-
-- Detailed explanation
-- Benefits
-- Practical uses
-- Related learning videos
-
----
-
-# 📸 Screenshots
-
-
-
-### 🏠 Home Page
-
-
-![Home Page](./screenshots/home.png)
-
-
-### 🌸 Plants Section
-
-
-![Plant section](./screenshots/plantpage.png)
-
-
-### 💧 Plant Care
-
-
-![Plant care](./screenshots/plantcare.png)
-
-
-### 🛠 DIY Garden Crafts
-
-
-![DIY](./screenshots/diy.png)
-
-
-### 🌱 Gardening Methods
-
-
-![Garden methods](./screenshots/gardeningmethods.png)
-
+## Security highlights
+- Passwords hashed with **bcrypt** (12 rounds); login errors never reveal whether an email exists.
+- **JWT** pinned to HS256; the user's role is always read from the database, never trusted from the token.
+- Input validated with **zod**; query values are type-checked to block NoSQL operator injection.
+- Photo uploads are checked by their **real bytes** (JPEG/PNG/WebP only), size-capped, kept in memory and never written to disk.
+- **Rate limits** on login/registration and, per user, on photo checks; proxy-aware so limits are per visitor.
+- `helmet` headers, a CORS allow-list, and no secrets in the repository (`.env` is git-ignored).
 
 ---
 
 # 🛠 Tech Stack
 
-<p align="center">
-
-<img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind,nodejs,git,github,vscode" />
-
-</p>
-
-| Technology | Purpose |
-|------------|----------|
-| ⚛ React | Component-based UI |
-| ▲ Next.js | Routing & Rendering |
-| 🔷 TypeScript | Type Safety |
-| 🎨 Tailwind CSS | Styling & Responsive Design |
-| 🟩 Node.js | Development Runtime |
-| 🐙 GitHub | Source Code Hosting |
-| ▲ Vercel | Deployment |
+| Layer | Technology |
+|---|---|
+| Database | MongoDB Atlas, Mongoose 9 |
+| Server | Node.js 22, Express 5, zod, jsonwebtoken, bcryptjs, helmet, multer |
+| Client | React 19, Vite, React Router 7, Tailwind CSS 4 |
+| ML | PyTorch (training), ONNX Runtime + sharp (serving) |
+| Testing | Node's built-in test runner against a real in-memory MongoDB |
+| Hosting | Vercel (client), Render (API), MongoDB Atlas (database) |
 
 ---
 
-# 📁 Project Structure
+# 🚀 Getting Started
 
-```text
-Gardener Guide
-│
-├── app
-│   ├── plants
-│   │     ├── rose
-│   │     ├── tulasi
-│   │     ├── lemon
-│   │     └── ...
-│   │
-│   ├── plantcare
-│   │     ├── watering
-│   │     ├── sunlight
-│   │     ├── soil
-│   │     ├── fertilizer
-│   │     ├── pruning
-│   │     └── pestcontrol
-│   │
-│   ├── diy
-│   │
-│   ├── methods
-│   │
-│   ├── layout.tsx
-│   └── page.tsx
-│
-├── components
-│   ├── Navbar
-│   ├── Hero
-│   ├── Footer
-│   ├── PlantCard
-│   ├── CareCard
-│   ├── DIYCard
-│   └── MethodCard
-│
-├── data
-│
-├── public
-│
-└── README.md
+**Prerequisites:** Node 20+, and a free [MongoDB Atlas](docs/ATLAS.md) database (or any MongoDB).
+
+```bash
+git clone https://github.com/SriyaMeenakshi/gardener-guide.git
+cd gardener-guide
+
+# 1. API
+cd server
+npm install
+cp .env.example .env          # then fill in MONGO_URI and JWT_SECRET (see docs/ATLAS.md)
+npm run db:check              # confirms the database connection
+npm run seed                  # loads plants, guides, methods and the disease knowledge base
+npm run dev                   # http://localhost:5000
+
+# 2. Website (new terminal)
+cd client
+npm install
+npm run dev                   # http://localhost:5173  (proxies /api to the server)
 ```
+
+Run the tests with `cd server && npm test` (the first run downloads a small MongoDB test binary).
+
+**Deploying:** [docs/ATLAS.md](docs/ATLAS.md) (database) and [docs/DEPLOY.md](docs/DEPLOY.md) (Render + Vercel).
 
 ---
 
@@ -225,105 +165,25 @@ More than just a coding project, this website represents continuous learning, co
 
 ---
 
-# 📚 What I Learned
+# 🚧 Known Limitations
 
-While building Gardener Guide, I gained practical experience with:
-
-- Next.js App Router
-- React Components
-- TypeScript Fundamentals
-- Tailwind CSS
-- Dynamic Routing
-- Responsive Web Design
-- Component Reusability
-- Data Organization
-- Git & GitHub Workflow
-- Deploying Applications with Vercel
-
----
+- The disease model knows **14 crops** (of this site's plants, only tomato) and was trained on lab photos, so real garden photos will score lower. It can be confidently wrong about plants it has never seen. Details in [ml/README.md](ml/README.md).
+- The disease advice is general guidance and should be reviewed by someone who knows plant care.
+- Watering status shows when you open My Garden; there are no reminder emails yet.
 
 # 🚀 Future Improvements
 
-Some ideas planned for future versions include:
-
-- 🔍 Search plants by name
-- 🤖 AI-based Plant Disease Detection
-- 📷 Plant Identification using Image Upload
-- 🌦 Weather-based Gardening Tips
-- 🗓 Seasonal Planting Calendar
-- 🌍 More Plant Guides
-- 🌼 Additional Gardening Methods
-- 🐝 Pollinator Friendly Garden Guide
-- ♿ Accessibility Improvements
-
----
-
-# 🚀 Getting Started
-
-Clone the repository
-
-```bash
-git clone https://github.com/SriyaMeenakshi/gardener-guide.git
-```
-
-Go into the project
-
-```bash
-cd gardener-guide
-```
-
-Install dependencies
-
-```bash
-npm install
-```
-
-Run the development server
-
-```bash
-npm run dev
-```
-
-Visit
-
-```
-http://localhost:3000
-```
-
----
-
-# 🤝 Contributing
-
-Contributions, ideas, and suggestions are always welcome.
-
-If you'd like to improve the project:
-
-1. Fork the repository
-2. Create your feature branch
-
-```bash
-git checkout -b feature-name
-```
-
-3. Commit your changes
-
-```bash
-git commit -m "Add new feature"
-```
-
-4. Push to GitHub
-
-```bash
-git push origin feature-name
-```
-
-5. Open a Pull Request
+- 📧 Watering reminder emails
+- 🧑‍💼 Admin page to add and edit plants without touching code
+- 🌿 A "not a leaf / unknown plant" class and photos of real garden plants for the model
+- 🗓 Seasonal planting calendar and weather-based tips
+- 🌍 More plant guides and gardening methods
 
 ---
 
 # 📄 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the **MIT License**. The PlantVillage dataset used to train the model has its own licence (see [ml/README.md](ml/README.md)).
 
 ---
 
@@ -359,9 +219,7 @@ https://www.linkedin.com/in/sriya-meenakshi-chalamalasetty
 
 ### 🌼 Inspired by a childhood spent in the garden.
 
-
-
-**Built with 💚 using Next.js, React, TypeScript, and Tailwind CSS.**
+**Built with 💚 using MongoDB, Express, React and Node.js.**
 
 ⭐ If you enjoyed this project, consider giving it a star!
 
