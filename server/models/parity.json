@@ -1,205 +1,205 @@
 [
   {
-    "file": "public/plants/tomato/beefstack.jpg",
+    "file": "client/public/plants/tomato/beefstack.jpg",
     "top": [
       {
         "index": 10,
-        "prob": 0.30991
+        "prob": 0.30867
       },
       {
         "index": 26,
-        "prob": 0.21653
+        "prob": 0.22758
       },
       {
         "index": 15,
-        "prob": 0.21247
+        "prob": 0.19994
       }
     ]
   },
   {
-    "file": "public/plants/tomato/cherrytomato.jpg",
+    "file": "client/public/plants/tomato/cherrytomato.jpg",
     "top": [
       {
         "index": 26,
-        "prob": 0.4472
+        "prob": 0.42652
       },
       {
         "index": 10,
-        "prob": 0.14512
+        "prob": 0.1618
       },
       {
         "index": 8,
-        "prob": 0.04232
+        "prob": 0.04935
       }
     ]
   },
   {
-    "file": "public/plants/tomato/roma.jpg",
+    "file": "client/public/plants/tomato/roma.jpg",
     "top": [
       {
         "index": 10,
-        "prob": 0.54589
+        "prob": 0.56096
       },
       {
         "index": 16,
-        "prob": 0.13916
+        "prob": 0.12888
       },
       {
         "index": 26,
-        "prob": 0.07967
+        "prob": 0.08145
       }
     ]
   },
   {
-    "file": "public/plants/rose/desirose.JPG",
+    "file": "client/public/plants/rose/desirose.JPG",
     "top": [
       {
         "index": 26,
-        "prob": 0.31167
+        "prob": 0.34069
       },
       {
         "index": 35,
-        "prob": 0.10899
+        "prob": 0.11203
       },
       {
         "index": 34,
-        "prob": 0.06614
+        "prob": 0.06136
       }
     ]
   },
   {
-    "file": "public/plants/rose/hybridtea.jpg",
+    "file": "client/public/plants/rose/hybridtea.jpg",
     "top": [
       {
         "index": 35,
-        "prob": 0.2691
+        "prob": 0.26514
       },
       {
         "index": 30,
-        "prob": 0.14197
+        "prob": 0.12885
       },
       {
-        "index": 5,
-        "prob": 0.0806
+        "index": 26,
+        "prob": 0.07944
       }
     ]
   },
   {
-    "file": "public/plants/rose/rose-hero.JPG",
+    "file": "client/public/plants/rose/rose-hero.JPG",
     "top": [
       {
         "index": 35,
-        "prob": 0.21524
+        "prob": 0.23013
+      },
+      {
+        "index": 26,
+        "prob": 0.12604
       },
       {
         "index": 11,
-        "prob": 0.12181
-      },
-      {
-        "index": 26,
-        "prob": 0.11858
+        "prob": 0.1161
       }
     ]
   },
   {
-    "file": "public/plants/mint/chocolate.jpg",
+    "file": "client/public/plants/mint/chocolate.jpg",
     "top": [
       {
         "index": 26,
-        "prob": 0.53998
+        "prob": 0.51468
       },
       {
         "index": 29,
-        "prob": 0.07948
+        "prob": 0.09426
       },
       {
         "index": 30,
-        "prob": 0.07307
+        "prob": 0.07441
       }
     ]
   },
   {
-    "file": "public/plants/mint/hero.jpg",
-    "top": [
-      {
-        "index": 5,
-        "prob": 0.25367
-      },
-      {
-        "index": 26,
-        "prob": 0.25187
-      },
-      {
-        "index": 30,
-        "prob": 0.23747
-      }
-    ]
-  },
-  {
-    "file": "public/plants/mint/peppermint.jpg",
+    "file": "client/public/plants/mint/hero.jpg",
     "top": [
       {
         "index": 26,
-        "prob": 0.89119
+        "prob": 0.25531
       },
       {
         "index": 5,
-        "prob": 0.02543
+        "prob": 0.25283
       },
       {
         "index": 30,
-        "prob": 0.02508
+        "prob": 0.22558
       }
     ]
   },
   {
-    "file": "public/plants/chilli/birdseye.jpg",
+    "file": "client/public/plants/mint/peppermint.jpg",
+    "top": [
+      {
+        "index": 26,
+        "prob": 0.89366
+      },
+      {
+        "index": 5,
+        "prob": 0.02459
+      },
+      {
+        "index": 30,
+        "prob": 0.02455
+      }
+    ]
+  },
+  {
+    "file": "client/public/plants/chilli/birdseye.jpg",
     "top": [
       {
         "index": 8,
-        "prob": 0.1504
+        "prob": 0.14143
       },
       {
         "index": 10,
-        "prob": 0.11945
+        "prob": 0.10691
       },
       {
         "index": 29,
-        "prob": 0.10671
+        "prob": 0.10238
       }
     ]
   },
   {
-    "file": "public/plants/chilli/cayenne.jpg",
+    "file": "client/public/plants/chilli/cayenne.jpg",
     "top": [
       {
         "index": 10,
-        "prob": 0.2607
+        "prob": 0.2611
       },
       {
         "index": 18,
-        "prob": 0.25594
+        "prob": 0.25983
       },
       {
         "index": 15,
-        "prob": 0.13691
+        "prob": 0.13031
       }
     ]
   },
   {
-    "file": "public/plants/chilli/hero.jpg",
+    "file": "client/public/plants/chilli/hero.jpg",
     "top": [
       {
         "index": 26,
-        "prob": 0.40502
+        "prob": 0.42178
       },
       {
         "index": 8,
-        "prob": 0.10096
+        "prob": 0.09502
       },
       {
         "index": 10,
-        "prob": 0.08735
+        "prob": 0.08192
       }
     ]
   }

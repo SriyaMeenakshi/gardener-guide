@@ -2,7 +2,10 @@
 // (so image paths stored in the database stay valid). Phone-camera originals are several MB each; for a website
 // 1400 px on the long edge is plenty. EXIF metadata (including GPS location) is dropped.
 //
-// Usage (from /server):  node scripts/optimize-images.mjs ../public ../client/public
+// The full-size originals are no longer in the working tree. They are kept in git history under the tag v1-final:
+//   git archive v1-final public | tar -x -C /some/folder      (then pass /some/folder/public as <src>)
+//
+// Usage (from /server):  node scripts/optimize-images.mjs <folder with originals> ../client/public
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";

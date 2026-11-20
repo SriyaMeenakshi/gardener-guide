@@ -13,8 +13,9 @@ import torch
 from torch import nn
 
 from common import ARTIFACTS, CACHE, DATA, IMG_SIZE, MEAN, REPO_ML, SERVER_MODELS, STD, ensure_dirs, read_json, write_json
-from evaluate import load_head, photos_for
+from evaluate import load_head
 from features import backbone, load_image_tensor, normalise
+from make_parity import write_parity
 
 
 class Packaged(nn.Module):
@@ -72,13 +73,7 @@ def main():
         "recommendedMinConfidence": metrics["recommended_min_confidence"],
         "testAccuracy": metrics["test"]["accuracy"],
     })
-    refs = []
-    for slug in ("tomato", "rose", "mint", "chilli"):
-        for f in photos_for([slug])[slug][:3]:
-            p = sess.run(None, {"image": load_image_tensor(f).unsqueeze(0).numpy()})[0][0]
-            top = np.argsort(-p)[:3]
-            refs.append({"file": f.relative_to(REPO_ML.parent).as_posix(), "top": [{"index": int(i), "prob": round(float(p[i]), 5)} for i in top]})
-    write_json(SERVER_MODELS / "parity.json", refs)
+    refs = write_parity(sess)
     print(f"wrote labels.json and parity.json ({len(refs)} reference photos)")
 
 
