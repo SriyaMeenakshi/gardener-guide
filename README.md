@@ -47,7 +47,7 @@ Save plants to your own garden, give them nicknames, set how often each needs wa
 Upload a photo of a leaf and get a suggestion with symptoms, what to do and how to prevent it. It runs on **a model I trained myself** (see below), inside the server: no paid API, and the photo is analysed and then discarded. It is honest about its limits: it only knows 14 crops, says "not sure" when it isn't confident, and says so on the page.
 
 ### 🔐 Accounts
-Register, log in, stay signed in across visits. Your garden and your check history are private to you.
+Register with email and password or **continue with Google**, and stay signed in across visits. Your garden and your check history are private to you. (Google sign-in appears once a Google Client ID is configured: see [docs/GOOGLE_LOGIN.md](docs/GOOGLE_LOGIN.md).)
 
 ---
 
@@ -96,7 +96,7 @@ gardener-guide
 | Area | Endpoints |
 |---|---|
 | Content (public) | `GET /api/plants` (search, filters, pagination) · `/plants/:slug` · `/care` · `/care/:slug` · `/methods` · `/methods/:slug` · `/diy` |
-| Auth | `POST /api/auth/register` · `POST /api/auth/login` · `GET /api/auth/me` |
+| Auth | `POST /api/auth/register` · `POST /api/auth/login` · `POST /api/auth/google` · `GET /api/auth/providers` · `GET /api/auth/me` |
 | My Garden 🔒 | `GET/POST /api/garden` · `PUT/DELETE /api/garden/:id` · `POST /api/garden/:id/water` |
 | Plant Doctor 🔒 | `POST /api/diagnose` (multipart photo) · `GET /api/diagnose/history` · `GET /api/diagnose/info` · `DELETE /api/diagnose/:id` |
 
@@ -104,6 +104,7 @@ gardener-guide
 
 ## Security highlights
 - Passwords hashed with **bcrypt** (12 rounds); login errors never reveal whether an email exists.
+- **Google sign-in** verifies Google's signed token on the server (signature, audience, expiry, verified email) and never auto-merges with an existing password account.
 - **JWT** pinned to HS256; the user's role is always read from the database, never trusted from the token.
 - Input validated with **zod**; query values are type-checked to block NoSQL operator injection.
 - Photo uploads are checked by their **real bytes** (JPEG/PNG/WebP only), size-capped, kept in memory and never written to disk.
@@ -117,7 +118,7 @@ gardener-guide
 | Layer | Technology |
 |---|---|
 | Database | MongoDB Atlas, Mongoose 9 |
-| Server | Node.js 22, Express 5, zod, jsonwebtoken, bcryptjs, helmet, multer |
+| Server | Node.js 22, Express 5, zod, jsonwebtoken, bcryptjs, google-auth-library, helmet, multer |
 | Client | React 19, Vite, React Router 7, Tailwind CSS 4 |
 | ML | PyTorch (training), ONNX Runtime + sharp (serving) |
 | Testing | Node's built-in test runner against a real in-memory MongoDB |
@@ -149,7 +150,7 @@ npm run dev                   # http://localhost:5173  (proxies /api to the serv
 
 Run the tests with `cd server && npm test` (the first run downloads a small MongoDB test binary).
 
-**Deploying:** [docs/ATLAS.md](docs/ATLAS.md) (database) and [docs/DEPLOY.md](docs/DEPLOY.md) (Render + Vercel).
+**Deploying:** [docs/ATLAS.md](docs/ATLAS.md) (database), [docs/DEPLOY.md](docs/DEPLOY.md) (Render + Vercel) and optionally [docs/GOOGLE_LOGIN.md](docs/GOOGLE_LOGIN.md).
 
 ---
 
@@ -170,6 +171,7 @@ More than just a coding project, this website represents continuous learning, co
 - The disease model knows **14 crops** (of this site's plants, only tomato) and was trained on lab photos, so real garden photos will score lower. It can be confidently wrong about plants it has never seen. Details in [ml/README.md](ml/README.md).
 - The disease advice is general guidance and should be reviewed by someone who knows plant care.
 - Watering status shows when you open My Garden; there are no reminder emails yet.
+- If an email already has a password account, "Continue with Google" refuses and asks you to log in with the password (a "connect Google" button inside a logged-in account would be the safe way to link both).
 
 # 🚀 Future Improvements
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { PageHeader } from "../components/Status";
+import GoogleSignIn from "../components/GoogleSignIn";
 
 const inputClass = "w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500";
 
@@ -17,7 +18,7 @@ function Field({ label, id, ...props }) {
 }
 
 // Shared form shell: handles submit state, error display and the post-login redirect.
-function AuthForm({ title, subtitle, submitLabel, onSubmit, children, footer }) {
+function AuthForm({ title, subtitle, submitLabel, onSubmit, children, footer, extra }) {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,6 +60,7 @@ function AuthForm({ title, subtitle, submitLabel, onSubmit, children, footer }) 
           {submitting ? "Please wait…" : submitLabel}
         </button>
       </form>
+      {extra}
       <p className="text-center mt-4 text-gray-700">{footer}</p>
     </div>
   );
@@ -72,6 +74,7 @@ export function Login() {
       title="🌿 Welcome back"
       subtitle="Log in to your garden."
       submitLabel="Log in"
+      extra={<GoogleSignIn />}
       onSubmit={(f) => login(f.get("email"), f.get("password"))}
       footer={
         <>
@@ -96,6 +99,7 @@ export function Register() {
       title="🌱 Join Gardener Guide"
       subtitle="Create an account to save your plants."
       submitLabel="Create account"
+      extra={<GoogleSignIn />}
       onSubmit={(f) => register(f.get("name"), f.get("email"), f.get("password"))}
       footer={
         <>

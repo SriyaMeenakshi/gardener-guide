@@ -36,12 +36,13 @@ export function AuthProvider({ children }) {
     async (name, email, password) => finishAuth(await apiPost("/auth/register", { name, email, password })),
     [finishAuth]
   );
+  const loginWithGoogle = useCallback(async (credential) => finishAuth(await apiPost("/auth/google", { credential })), [finishAuth]);
   const logout = useCallback(() => {
     clearToken();
     setUser(null);
   }, []);
 
-  const value = useMemo(() => ({ user, loading, login, register, logout }), [user, loading, login, register, logout]);
+  const value = useMemo(() => ({ user, loading, login, register, loginWithGoogle, logout }), [user, loading, login, register, loginWithGoogle, logout]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
