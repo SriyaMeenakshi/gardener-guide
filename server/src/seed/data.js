@@ -1,5 +1,9 @@
 // Seed data migrated from v1. Long articles live in their own files; DIY projects are small enough to stay here.
-export { plants } from "./plants.js";
+import { plants as originalPlants } from "./plants.js";
+import { morePlants } from "./plants-more.js";
+
+// The original 12 guides (with photos and videos) followed by the newer ones.
+export const plants = [...originalPlants, ...morePlants];
 export { careGuides } from "./care.js";
 export { methods } from "./methods.js";
 export { diseases } from "./diseases.js";

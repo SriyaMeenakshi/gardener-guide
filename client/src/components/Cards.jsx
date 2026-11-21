@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Bug, Droplets, Scissors, Shovel, Sprout, Sun, Play, Gauge } from "lucide-react";
 import { CATEGORY, LEVEL, SUN, WATER } from "../lib/labels";
+import PlantImage from "./PlantImage";
 
 const TONES = {
   sun: "bg-sun-100 text-sun-700",
@@ -21,7 +22,7 @@ export function PlantCard({ plant }) {
   return (
     <Link to={`/plants/${plant.slug}`} className="group card card-hover block overflow-hidden">
       <div className="relative aspect-[4/3] overflow-hidden bg-leaf-100">
-        <img src={plant.image} alt={plant.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        <PlantImage src={plant.image} alt={plant.name} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
         <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-leaf-800 shadow-sm backdrop-blur">
           {CATEGORY[plant.category] ?? plant.category}
         </span>

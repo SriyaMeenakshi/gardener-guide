@@ -2,7 +2,7 @@ import Plant from "../models/Plant.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 
 const ENUMS = {
-  category: ["flowering", "medicinal", "kitchen", "fruit"],
+  category: ["indoor", "flowering", "medicinal", "kitchen", "fruit"],
   sunlight: ["low", "partial", "full"],
   water: ["low", "moderate", "high"],
   difficulty: ["easy", "medium", "hard"],

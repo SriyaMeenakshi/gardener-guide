@@ -41,7 +41,7 @@ const plantSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["flowering", "medicinal", "kitchen", "fruit"],
+      enum: ["indoor", "flowering", "medicinal", "kitchen", "fruit"],
       index: true,
     },
     image: { type: String, required: true },

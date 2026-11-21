@@ -35,7 +35,7 @@ Whether you're growing a single Tulasi plant on your balcony or a whole home gar
 # ✨ Features
 
 ### 🌸 Plant guides
-12 plants across flowering, medicinal, kitchen-garden and fruit categories. **Search** by name and **filter** by sunlight, water need and difficulty. Each plant has varieties, care requirements, common problems with fixes, and a tutorial video.
+24 plants across indoor, flowering, medicinal, kitchen-garden and fruit categories. **Search** by name and **filter** by sunlight, water need and difficulty. Each plant has varieties, care requirements, common problems with fixes, and a tutorial video.
 
 ### 💧 Care guides · 🛠 DIY projects · 🌱 Gardening methods
 Six care guides (watering, sunlight, soil, fertilizer, pruning, pest control), six DIY projects and six gardening methods, all served from the database through three reusable page templates.
@@ -151,6 +151,11 @@ npm run dev                   # http://localhost:5173  (proxies /api to the serv
 Run the tests with `cd server && npm test` (the first run downloads a small MongoDB test binary).
 
 **Deploying:** [docs/ATLAS.md](docs/ATLAS.md) (database), [docs/DEPLOY.md](docs/DEPLOY.md) (Render + Vercel) and optionally [docs/GOOGLE_LOGIN.md](docs/GOOGLE_LOGIN.md).
+
+### Adding a plant
+1. Add an entry to [`server/src/seed/plants-more.js`](server/src/seed/plants-more.js) (copy an existing one: description, varieties, three care cards, common problems; `video` is optional).
+2. Add its photo as `client/public/plants/<slug>.jpg` (landscape JPEG, at least 1200 px wide). Until the file exists the site shows a leaf placeholder, and the photo appears by itself once it does.
+3. Run `cd server && npm run seed` to load it, and `npm run photos:check` to see which plants still need photos.
 
 ---
 

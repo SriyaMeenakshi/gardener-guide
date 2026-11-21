@@ -5,6 +5,7 @@ import { apiDelete, apiGet, apiPost, apiPut } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import { dueInfo, lastWateredLabel } from "../lib/garden";
 import { PageHeader, Loading, ErrorMessage } from "../components/Status";
+import PlantImage from "../components/PlantImage";
 
 // Watering status badge: colour + icon, never colour alone.
 const TONES = {
@@ -61,7 +62,7 @@ function GardenCard({ entry, busy, error, onWater, onSave, onRemove }) {
   return (
     <li className="card flex flex-col overflow-hidden">
       <div className="relative">
-        <img src={entry.plant.image} alt={entry.plant.name} loading="lazy" className="h-44 w-full object-cover" />
+        <PlantImage src={entry.plant.image} alt={entry.plant.name} loading="lazy" className="h-44 w-full object-cover" />
         <span className={`absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold shadow-sm ${tone.cls}`}>
           <tone.icon size={14} aria-hidden="true" /> {due.label}
         </span>

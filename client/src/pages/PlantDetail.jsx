@@ -5,6 +5,7 @@ import useApi from "../hooks/useApi";
 import { apiPost } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import { Loading, ErrorMessage } from "../components/Status";
+import PlantImage from "../components/PlantImage";
 import { CATEGORY, LEVEL, SUN, WATER } from "../lib/labels";
 
 function AddToGarden({ plant }) {
@@ -77,7 +78,7 @@ export default function PlantDetail() {
       </Link>
 
       <div className="relative isolate mt-4 overflow-hidden rounded-3xl">
-        <img src={plant.heroImage || plant.image} alt={plant.name} className="h-72 w-full object-cover md:h-[26rem]" />
+        <PlantImage src={plant.heroImage || plant.image} alt={plant.name} dark iconSize={72} className="h-72 w-full object-cover md:h-[26rem]" />
         <div className="absolute inset-0 bg-gradient-to-t from-leaf-950/85 via-leaf-950/25 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
           <span className="inline-block rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-leaf-800">{CATEGORY[plant.category] ?? plant.category}</span>
