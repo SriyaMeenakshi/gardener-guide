@@ -4,7 +4,7 @@
 
 ### Discover • Learn • Grow
 
-*A full-stack gardening companion for home gardeners and nature enthusiasts: plant guides, a personal garden tracker, and a plant-health checker.*
+*A mern-stack gardening companion for home gardeners and nature enthusiasts: plant guides, a personal garden tracker, and a plant-health checker.*
 
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Express](https://img.shields.io/badge/Express-000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
